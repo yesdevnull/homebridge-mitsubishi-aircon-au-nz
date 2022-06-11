@@ -51,16 +51,7 @@ export class MelviewMitsubishiPlatformAccessory {
        .onGet(this.handleOnGet.bind(this))
        .onSet(this.handleOnSet.bind(this));
 
-       handleOnGet() {
-          this.log.debug('Zone Triggered GET On');
-          // set this to a valid value for On
-            const currentValue = 1;
-            return currentValue;
-          }
 
-      handleOnSet(value) {
-              this.log.debug('Zone Triggered SET On:' value);
-       }
         /*********************************************************
          * Polling for state change
          *********************************************************/
@@ -78,5 +69,16 @@ export class MelviewMitsubishiPlatformAccessory {
               this.platform.log.debug(e);
             });
         }, 5000);
+    }
+
+    handleOnGet() {
+       this.log.debug('Zone Triggered GET On');
+       // set this to a valid value for On
+         const currentValue = 1;
+         return currentValue;
+       }
+
+   handleOnSet(value) {
+           this.log.debug('Zone Triggered SET On:' value);
     }
 }
