@@ -105,8 +105,7 @@ export class MelviewMitsubishiPlatformAccessory {
      * Handle requests to set the "On" characteristic
      */
     handleOnSet(value) {
-      this.log.debug('Triggered SET On:' value);
+      this.log.debug('Triggered SET On');
     }
 
   }
-}
