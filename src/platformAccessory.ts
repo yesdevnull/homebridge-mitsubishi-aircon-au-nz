@@ -44,7 +44,23 @@ export class MelviewMitsubishiPlatformAccessory {
           }
         }
 
+        //Create a Siwtch for Zones
+        this.service = new this.Service(this.Service.Switch);
+     // create handlers for required characteristics
+     this.service.getCharacteristic(this.Characteristic.On)
+       .onGet(this.handleOnGet.bind(this))
+       .onSet(this.handleOnSet.bind(this));
 
+       handleOnGet() {
+          this.log.debug('Zone Triggered GET On');
+          // set this to a valid value for On
+            const currentValue = 1;
+            return currentValue;
+          }
+
+      handleOnSet(value) {
+              this.log.debug('Zone Triggered SET On:' value);
+       }
         /*********************************************************
          * Polling for state change
          *********************************************************/
