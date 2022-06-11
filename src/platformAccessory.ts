@@ -42,7 +42,7 @@ export class MelviewMitsubishiPlatformAccessory {
           } else {
             this.platform.log.info('DRY Capability:', device.room, ' [UNAVAILABLE]');
           }
-        }
+        };
 
         //Create a Siwtch for Zones
         this.service = new this.Service(this.Service.Switch);
