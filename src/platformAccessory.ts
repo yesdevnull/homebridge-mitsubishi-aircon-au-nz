@@ -79,6 +79,6 @@ export class MelviewMitsubishiPlatformAccessory {
        }
 
    handleOnSet(value) {
-           this.log.debug('Zone Triggered SET On:' value);
+           this.log.debug('Zone Triggered SET On';
     }
 }
