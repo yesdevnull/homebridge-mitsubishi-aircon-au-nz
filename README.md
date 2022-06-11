@@ -17,7 +17,7 @@
 [![Github CD](https://github.com/aurc/melview-mitsubishi-au-nz/actions/workflows/release.yml/badge.svg)](https://github.com/aurc/melview-mitsubishi-au-nz/actions)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug)](https://www.apache.org/licenses/LICENSE-2.0)
 
-Use this plugin to integrate your Mitsubishi Airconditioner appliances with Apple's HomeKit using Homebridge.
+TESTING Use this plugin to integrate your Mitsubishi Airconditioner appliances with Apple's HomeKit using Homebridge.
 
 ## Overview
 
@@ -26,7 +26,7 @@ This plugin allows you to control the basic functionalities of your AC units thr
 - Automatically find all appliances linked to your account;
 - Control power ON/OFF
 - Set mode AUTO, HEAT, COOL
-- Dehumidifier (DRY): **Experimental**, disabled by default, use with caution as 
+- Dehumidifier (DRY): **Experimental**, disabled by default, use with caution as
   this feature is not extensively tested.
 - Set desired temperature
 - Obtain unit status, e.g. power, mode, room temperature and desired temperature.
@@ -36,15 +36,15 @@ in AU/NZ to control Mitsubishi Air Conditioners. It was possible due to the grea
 reverse engineering effort done by these folks: [NovaGL/diy-melview](https://github.com/NovaGL/diy-melview).
 
 Also note that the [Homebridge](https://homebridge.io/) put together excellent developer
-documentation which made it possible to get up and running quickly (e.g. 
+documentation which made it possible to get up and running quickly (e.g.
 [plugin-temeplate](https://github.com/homebridge/homebridge-plugin-template))!
 
 ## Compatibility & Pre-requisites
 
-It should work with most modern Mitsubishi Electric Airconditioner units that are Wi-Fi capable. 
+It should work with most modern Mitsubishi Electric Airconditioner units that are Wi-Fi capable.
 This plugin has been developed and tested against the following products:
 | Model                                                                                              | Wi-Fi Module                                    |
-| -------------------------------------------------------------------------------------------------- | ----------------------------------------------- | 
+| -------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | [MSZ-GL71VGD](https://www.mitsubishielectric.com.au/assets/LEG/JG79A991H01-UM.pdf)                 | [MAC-568IF-E](https://www.mitsubishielectric.com.au/assets/LEG/MAC-568IF-E.pdf)   |
 | [MSZ-GL35VGD](https://www.mitsubishielectric.com.au/assets/LEG/JG79A991H01-UM.pdf)                 | [MAC-568IF-E](https://www.mitsubishielectric.com.au/assets/LEG/MAC-568IF-E.pdf)   |
 | [MSZ-AP25VGD](https://www.mitsubishielectric.com.au/assets/LEG/MSZ-AP-User-Manual-JG79Y333H01.pdf) | [MAC-568IF-E](https://www.mitsubishielectric.com.au/assets/LEG/MAC-568IF-E.pdf)   |
@@ -68,7 +68,7 @@ the know lag.
 ## Installation
 
 ### Through Homebridge Config UI (recommeded)
-It's highly recommended that you use the [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x). 
+It's highly recommended that you use the [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x).
 1. Access the settings and configure the credentials as per the required fields.
 2. Save and restart homebridge.
 3. All units in your network should be automatically recognised. Open your Home App and allocate them to their respective rooms.
@@ -95,10 +95,8 @@ and configuring the plugin file `config.json` as:
     ]
 }
 ````
-where **user** is your user name, typically the email you used to register with the app 
+where **user** is your user name, typically the email you used to register with the app
 and **password** is your account password.
 
 ## Questions & Issues
 If you have issues, found a bug or have a question, please open an issue **[here](https://github.com/aurc/melview-mitsubishi-au-nz/issues)**.
-
-
