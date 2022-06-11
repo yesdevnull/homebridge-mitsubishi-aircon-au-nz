@@ -65,7 +65,9 @@ export class MelviewMitsubishiPlatformAccessory {
     }
   }
 
-
+  module.exports = (api) => {
+    api.registerAccessory('ExampleSwitchPlugin', ExampleSwitchAccessory);
+  };
   class ExampleSwitchAccessory {
 
     constructor(log, config, api) {
