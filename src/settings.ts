@@ -6,4 +6,4 @@ export const PLATFORM_NAME = 'MitsubishiAUNZ_jph';
 /**
  * This must match the name of your plugin as defined the package.json
  */
-export const PLUGIN_NAME = 'homebridge-airconditioner-mitsubishi-au-nz';
+export const PLUGIN_NAME = 'homebridge-airconditioner-mitsubishi-au-nz-jph';
