@@ -124,6 +124,43 @@ export class MelviewService {
         v: 2,
         commands: allComms,
         lc: 1,
+        zones:[
+          {
+            "zoneid": 1,
+            "status": 1,
+            "name": "Dining"
+          },
+          {
+            "zoneid": 2,
+            "status": 1,
+            "name": "Study"
+          },
+          {
+            "zoneid": 3,
+            "status": 1,
+            "name": "Theatre "
+          },
+          {
+            "zoneid": 4,
+            "status": 0,
+            "name": "Master Bed"
+          },
+          {
+            "zoneid": 5,
+            "status": 1,
+            "name": "AJ"
+          },
+          {
+            "zoneid": 6,
+            "status": 0,
+            "name": "Spare"
+          },
+          {
+            "zoneid": 7,
+            "status": 1,
+            "name": "Ruby"
+          }
+        ]      
       });
       this.log.debug('cmd:', req);
       const response = await fetch(URL + COMMAND_SERVICE, {
