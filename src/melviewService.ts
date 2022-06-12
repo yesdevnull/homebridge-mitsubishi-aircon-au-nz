@@ -102,6 +102,7 @@ export class MelviewService {
       });
       const body = await response.text();
       return JSON.parse(body) as Capabilities;
+      return Capabilities;
     }
 
     /**
