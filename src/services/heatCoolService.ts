@@ -9,7 +9,7 @@ import {
     CommandTemperature
 } from "../melviewCommand";
 import {WithUUID} from "hap-nodejs";
-
+import {ZoneAccessory} from "../platformAccessory";
 export class HeatCoolService extends AbstractService {
     constructor(
         protected readonly platform: MelviewMitsubishiHomebridgePlatform,
@@ -72,6 +72,7 @@ export class HeatCoolService extends AbstractService {
     async setActive(value: CharacteristicValue) {
         await this.platform.melviewService?.command(
             new CommandPower(value, this.device, this.platform));
+          //   await this.platform.ZoneAccessory.command(new ZoneAccessory(this.platform, this.accessory));
         // Default value
         // let v = -1;
         // switch (this.device.state?.setmode) {

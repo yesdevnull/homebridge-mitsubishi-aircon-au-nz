@@ -94,7 +94,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
               //this.log.info('Zone info test', zones);
               //added to dump the capabilities in Log.
               const c = await this.melviewService!.capabilities(device.unitid);
-              //this.log.debug('2Dump of Capabilities for Audit', c);
+              this.log.debug('2Dump of Capabilities for Audit', c);
 
 
               //**WORKING** run capbilites sooner to get zones.
@@ -105,6 +105,11 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
               //this.log.debug('Dump of Capabilities of Status', s);
               existingAccessory.context.device.state = s;
               new MelviewMitsubishiPlatformAccessory(this, existingAccessory);
+
+              //logging device state
+              //const z = s.zones;
+              //this.log.info('Zone info test', s.zones);
+              //this.log.info('exsisitngINfoContext', existingAccessory.context.device.state);
 
               // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
               // remove platform accessories when no longer present
@@ -141,13 +146,12 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
 
             //moved capabilites to get zone info
             const c = await this.melviewService!.capabilities(device.unitid);
-            //this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
+            this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
 
-            //for (let k = 0; k < c.zones.length; k++)
-            for (let k = 0; k < 2; k++)
+            for (let k = 0; k < c.zones.length; k++)
             {
               const zone = c.zones[k];
-              //const zone = c.zones[2];
+
               if (zone.display === 1 ) //displayed in the API
               {
               this.log.info('ZoneLoop', zone.zoneid, zone.name);
@@ -162,10 +166,11 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
               this.log.info('Restoring existing accessory from cache:', existingzoneaccessory.displayName, uuid);
 
               //find current Status
-              //const s = await this.melviewService!.getStatus(device.unitid);
+              const s = await this.melviewService!.getStatus(device.unitid);
               //this.log.debug('Zone Status', s);
-              //existingAccessory.context.device.state = s;
-              existingzoneaccessory.context.device = device;
+              existingzoneaccessory.context.device.state = s;
+              //existingzoneaccessory.context.device = device;
+              //this.log.info('exsisitngINfoContext', existingzoneaccessory.context.device.state);
               new ZoneAccessory(this, existingzoneaccessory);
 
               }

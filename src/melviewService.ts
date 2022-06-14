@@ -126,7 +126,7 @@ export class MelviewService {
       const req = JSON.stringify({
         unitid: command.getUnitID(),
         v: 2,
-        commands: allComms+',Z11,Z21,Z31,Z41,Z51',
+        commands: allComms,
         lc: 1,
       });
       this.log.debug('cmd:', req);

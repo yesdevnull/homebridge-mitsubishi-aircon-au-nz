@@ -34,7 +34,12 @@ export abstract class AbstractCommand implements Command{
 export class CommandPower extends AbstractCommand {
   public execute(): string {
         this.device.state!.power = this.value as number;
+
+      //  this.platform.log.debug('COmmandPoser- before', this.device.power);
+        if(this.value === 1) {this.device.power = 'on';} else {this.device.power ='off';}
+        this.platform.log.debug('Unit Power: ', this.device.power)
         return 'PW' + this.value;
+
   }
 }
 
@@ -89,6 +94,18 @@ export class CommandTemperature extends AbstractCommand {
   public execute(): string {
         this.device.state!.settemp = this.value as string;
         return 'TS' + this.device.state!.settemp;
-        
+
+  }
+}
+
+export class CommandZone extends AbstractCommand {
+  public execute(): string {
+        //this.device.state!.settemp = this.value as string;
+        //this.device.state!.zones!['1'].status = this.value
+
+        this.platform.log.debug('CommandValue', this.value, this.device);
+        //return 'Z21'
+        return this.value as string;
+
   }
 }
