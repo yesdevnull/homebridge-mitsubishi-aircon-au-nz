@@ -11,7 +11,6 @@ import {
 
 import {PLATFORM_NAME, PLUGIN_NAME} from './settings';
 import {MelviewMitsubishiPlatformAccessory} from './platformAccessory';
-import {ZoneAccessory} from './platformAccessory';
 import {MelviewService} from './melviewService';
 
 
@@ -49,10 +48,8 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
      * This function is invoked when homebridge restores cached accessories from disk at startup.
      * It should be used to setup event handlers for characteristics and update respective values.
      */
-
-     //this will find all accessories (zone and device)
     configureAccessory(accessory: PlatformAccessory) {
-      this.log.info('Loading accessory from cache:', accessory.displayName, accessory.UUID);
+      this.log.info('Loading accessory from cache:', accessory.displayName);
 
       // add the restored accessory to the accessories cache so we can track if it has already been registered
       this.accessories.push(accessory);
@@ -143,8 +140,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
             const c = await this.melviewService!.capabilities(device.unitid);
             //this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
 
-            //for (let k = 0; k < c.zones.length; k++)
-            for (let k = 0; k < 2; k++)
+            for (let k = 0; k < c.zones.length; k++)
             {
               const zone = c.zones[k];
               //const zone = c.zones[2];
@@ -154,35 +150,9 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
               const uuid = this.api.hap.uuid.generate(zone.name);
               this.log.debug('ZONE IDS:', zone.name, uuid);
 
-              const existingzoneaccessory = this.accessories.find(zoneaccessory => zoneaccessory.UUID === uuid);
-              //this.log.debug('exisiting:', existingzoneaccessory.displayName, uuid);
-
-              if (existingzoneaccessory)
+              } else
               {
-              this.log.info('Restoring existing accessory from cache:', existingzoneaccessory.displayName, uuid);
-
-              //find current Status
-              //const s = await this.melviewService!.getStatus(device.unitid);
-              //this.log.debug('Zone Status', s);
-              //existingAccessory.context.device.state = s;
-              existingzoneaccessory.context.device = device;
-              new ZoneAccessory(this, existingzoneaccessory);
-
-              }
-              else // zoneaccessory is already in place?
-              {
-                const zoneaccessory = new this.api.platformAccessory(zone.name, uuid);
-                zoneaccessory.context.device = device;
-                new ZoneAccessory(this, zoneaccessory);
-                this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [zoneaccessory]);
-                //******** this is the area of need?
-                this.accessories.push(zoneaccessory);
-
-              }
-
-
-              } else { //this.log.info('ZoneLoop= Skipping', zone.zoneid, ' ', zone.name);
-              //not needed as unused Zones
+              //this.log.info('ZoneLoop= Skipping', zone.zoneid, ' ', zone.name);
               }//end else
 
               //Create Accessories....
@@ -204,6 +174,8 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
               }
             }
 */
+
+
             } //end Zone loop
 
           }

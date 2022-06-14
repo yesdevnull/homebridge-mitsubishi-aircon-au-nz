@@ -71,6 +71,14 @@ export interface Capabilities {
     max?: Map<string, Range>;
     time: string;
     error: string;
+    zones: Zones[];
+}
+
+export interface Zones{
+  zoneid: number;
+  status: number;
+  name: string;
+  display: number;
 }
 
 export interface State {
@@ -96,6 +104,7 @@ export interface State {
     sendcount: number;
     fault: string;
     error: string;
+    zones: Zones[];
 }
 
 export enum WorkMode {

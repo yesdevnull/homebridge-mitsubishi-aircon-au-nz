@@ -1,7 +1,7 @@
 import {API, Logger, PlatformConfig} from 'homebridge';
 import fetch, {Response} from 'node-fetch';
 import {Cookie} from 'tough-cookie';
-import {Account, Building, Capabilities, CommandResponse, State} from './data';
+import {Account, Building, Capabilities, CommandResponse, State, Zones} from './data';
 import {Command} from './melviewCommand';
 
 const URL = 'https://api.melview.net/api/';
@@ -19,7 +19,7 @@ export class MelviewService {
         public readonly config: PlatformConfig,
         public readonly api: API,
     ) {
-      this.log.debug('Service Instantiated!');
+      this.log.debug('Test Service Instantiated!');
     }
 
     /**
@@ -79,7 +79,8 @@ export class MelviewService {
       const body = await response.text();
       const buildings = JSON.parse(body) as Building[];
       return buildings;
-    }
+
+}
 
     /**
      * Query the capabilities of a given device.
@@ -101,9 +102,11 @@ export class MelviewService {
         }),
       });
       const body = await response.text();
-      return JSON.parse(body) as Capabilities[];
-      return Capabilities;
+      return JSON.parse(body) as Capabilities;
+//      const z = JSON.parse(Capabilities.zoneid);
+//      this.log.error ('josh',z);
     }
+
 
     /**
      * Issue a command to the melview platform.
@@ -131,7 +134,8 @@ export class MelviewService {
         method: 'POST',
         headers: this.populateHeaders(),
         body: req,
-      });
+      })
+      this.log.error(req);
       const body = await response.text();
       const rBody = JSON.parse(body) as CommandResponse;
       if (rBody.error === 'ok' && rBody.lc && rBody.lc.length > 0) {
