@@ -103,8 +103,6 @@ export class MelviewService {
       });
       const body = await response.text();
       return JSON.parse(body) as Capabilities;
-//      const z = JSON.parse(Capabilities.zoneid);
-//      this.log.error ('josh',z);
     }
 
 
@@ -135,7 +133,7 @@ export class MelviewService {
         headers: this.populateHeaders(),
         body: req,
       })
-      this.log.error(req);
+      this.log.debug(req);
       const body = await response.text();
       const rBody = JSON.parse(body) as CommandResponse;
       if (rBody.error === 'ok' && rBody.lc && rBody.lc.length > 0) {

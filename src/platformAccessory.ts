@@ -94,14 +94,14 @@ export class MelviewMitsubishiPlatformAccessory {
 
             //accessory = new this.api.platformAccessory('zone', 'uuid');
             //this.service = new accessory.service(this.platform, this.accessory);
-            let service = accessory.getService(this.platform.Service.Fan);
-            this.platform.log.info('SwitchDevice FOund?***:', accessory.displayName, device.room, ' [COMPLETED]');
+            let service = accessory.getService(this.platform.Service.Fanv2);
+            this.platform.log.info('Device Found:', accessory.displayName, device.room, ' [COMPLETED]');
 
             // otherwise create a new LightBulb service
             if (!service) {
-              service = accessory.addService(this.platform.Service.Fan);
+              service = accessory.addService(this.platform.Service.Fanv2);
             //this.service = new this.service(this.Service.Switch)
-            this.platform.log.info('NewSWITHCServiceAdded***:', device.room, ' [COMPLETED]');
+            //this.platform.log.info('NewSWITHCServiceAdded***:', device.room, ' [COMPLETED]');
           }
             //this.service.getCharacteristic(this.platform.Characteristic.On);
             //service.updateCharacteristic(this.platform.Characteristic.On, 1);
@@ -127,11 +127,19 @@ export class MelviewMitsubishiPlatformAccessory {
 
 */
 
-      service.getCharacteristic(this.platform.Characteristic.On)
+      service.getCharacteristic(this.platform.Characteristic.Active)
               .onGet(this.handleOnGet.bind(this))
               .onSet(this.handleOnSet.bind(this));
 
 
+//service.getCharacteristic(this.platform.Characteristic.CurrentFanState)
+//              .onGet(this.handleOnGetState.bind(this))
+
+
+
+//consider using fan state for when A/c is off??
+    //service.getCharacteristic(this.platform.Characteristic.RotationSpeed)
+      //.onGet(this.handleOnGetState.bind(this))
 
             /*********************************************************
              * Polling for state change
@@ -153,7 +161,16 @@ export class MelviewMitsubishiPlatformAccessory {
             }, 5000);
         }
 
+async handleOnGetState() : Promise<CharacteristicValue> {
+      this.platform.log.error('Triggered GET FanState');
 
+    // set this to a valid value for Active
+    const currentValue = '0';
+    this.platform.log.debug('Triggered GET FanState', currentValue);
+    //const currentValue = this.Characteristic.CurrentFanState.IDLE;
+  //  const currentValue = this.Characteristic.CurrentFanState.BLOWING_AIR;
+    return currentValue;
+}
           /*  async getCurrentZone(): Promise<CharacteristicValue> {
               if (accessory.displayName === 'Dining')
               {const value = device.state!.zones!['0'].status;
@@ -231,19 +248,25 @@ export class MelviewMitsubishiPlatformAccessory {
               };
               //const c = await this.melviewService!.capabilities('156447';
               //this.platform.log.debug('cpabilities', c);
-              this.platform.log.debug('power check', this.accessory.context.device.power);
-              if (this.accessory.context.device.power=== 'off')
-              {
-                this.platform.log.debug('update as off');
-                return 0;
-              }
-              else {
-            this.platform.log.debug(this.accessory.displayName);
+              //const s = await this.melviewService!.getStatus(this.accessory.context.device.id);
+              //this.platform.log.debug('status', s);
+              //this.platform.log.debug('power check', this.accessory.context.device.state);
+
+
+              //Attemped to detect unit device power and update fans to off - but failed.
+              //f (this.accessory.context.device.power === 'off')
+              //{
+              //  this.platform.log.debug('update as off');
+              //  return 0;
+              //}
+              //else {
+            //this.platform.log.debug(this.accessory.displayName);
+
             const zonename = this.accessory.displayName;
             const zonearray = Zonelookup[zonename];
             this.platform.log.debug('Triggered GET On', zonename, this.accessory.context.device.state!.zones![zonearray].status);
             return this.accessory.context.device.state!.zones![zonearray].status;
-            }
+
           }
 
             /**
@@ -263,7 +286,7 @@ export class MelviewMitsubishiPlatformAccessory {
              };
 
              const newValue = Zonelookup[this.accessory.displayName]+ +value;
-             this.platform.log.debug('Triggered SET On', this.accessory.displayName, newValue, this.accessory.context.device);
+             this.platform.log.debug('Zone Set:', this.accessory.displayName, value);
              await this.platform.melviewService?.command(
                  new CommandZone(newValue, this.accessory.context.device, this.platform));
 

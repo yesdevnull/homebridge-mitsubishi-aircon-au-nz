@@ -103,7 +103,7 @@ export class CommandZone extends AbstractCommand {
         //this.device.state!.settemp = this.value as string;
         //this.device.state!.zones!['1'].status = this.value
 
-        this.platform.log.debug('CommandValue', this.value, this.device);
+        //this.platform.log.debug('CommandValue', this.value, this.device);
         //return 'Z21'
         return this.value as string;
 

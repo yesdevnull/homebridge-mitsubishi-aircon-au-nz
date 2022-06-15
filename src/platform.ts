@@ -94,7 +94,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
               //this.log.info('Zone info test', zones);
               //added to dump the capabilities in Log.
               const c = await this.melviewService!.capabilities(device.unitid);
-              this.log.debug('2Dump of Capabilities for Audit', c);
+              this.log.debug('Dump of Capabilities for Audit', c);
 
 
               //**WORKING** run capbilites sooner to get zones.
@@ -146,7 +146,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
 
             //moved capabilites to get zone info
             const c = await this.melviewService!.capabilities(device.unitid);
-            this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
+          //this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
 
             for (let k = 0; k < c.zones.length; k++)
             {
@@ -154,7 +154,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
 
               if (zone.display === 1 ) //displayed in the API
               {
-              this.log.info('ZoneLoop', zone.zoneid, zone.name);
+              //this.log.info('ZoneLoop', zone.zoneid, zone.name);
               const uuid = this.api.hap.uuid.generate(zone.name);
               this.log.debug('ZONE IDS:', zone.name, uuid);
 
