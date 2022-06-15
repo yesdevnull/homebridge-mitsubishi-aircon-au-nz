@@ -4,6 +4,7 @@ import {MelviewMitsubishiHomebridgePlatform} from './platform';
 import {Unit} from './data';
 import {HeatCoolService} from './services/heatCoolService';
 import {DryService} from './services/dryService';
+import {AbstractService} from "./services/abstractService";
 //import {ExampleSwitch} from './services/switch-accessory';
 import {
     CommandZone,
@@ -77,6 +78,8 @@ export class MelviewMitsubishiPlatformAccessory {
       //private acService: HeatCoolService;
       //protected service: Service;
       public melviewService?: MelviewService;
+      public readonly accessories: PlatformAccessory[] = [];
+
       constructor(
           public readonly platform: MelviewMitsubishiHomebridgePlatform,
           public readonly accessory: PlatformAccessory,
@@ -126,6 +129,8 @@ export class MelviewMitsubishiPlatformAccessory {
             }
 
 */
+      //const cachedAccessories = this.accessories.find(accessory => accessory.UUID === accessory.context.device.uuid);
+    //this.platform.log.info('DeviceList **POWER**', accessory, accessory.context.device.state.power);
 
       service.getCharacteristic(this.platform.Characteristic.Active)
               .onGet(this.handleOnGet.bind(this))
@@ -193,49 +198,7 @@ async handleOnGetState() : Promise<CharacteristicValue> {
 
             //this.platform.log.info('zonestatus', zonestatus, zonestatus3, zonestatus4);
             async handleOnGet() : Promise<CharacteristicValue> {
-              // set this to a valid value for On
-              //ugly to be tidied up later.....
-            /*
-              if (this.accessory.displayName === 'Dining')
-              {
-              this.platform.log.debug('Triggered GET On', 'Dining', this.accessory.context.device.state!.zones!['0'].status);
-              return this.accessory.context.device.state!.zones!['0'].status;
-              }
 
-              if (this.accessory.displayName === 'Study')
-              {
-                this.platform.log.debug('Triggered GET On', 'Study', this.accessory.context.device.state!.zones!['1'].status);
-                return this.accessory.context.device.state!.zones!['1'].status;
-              }
-              if (this.accessory.displayName === 'Theatre')
-              {
-              this.platform.log.debug('Triggered GET On', 'Dining', this.accessory.context.device.state!.zones!['2'].status);
-              return this.accessory.context.device.state!.zones!['3'].status;
-              }
-
-              if (this.accessory.displayName === 'Master Bed')
-              {
-                this.platform.log.debug('Triggered GET On', 'Study', this.accessory.context.device.state!.zones!['3'].status);
-                return this.accessory.context.device.state!.zones!['4'].status;
-              }
-              if (this.accessory.displayName === 'AJ')
-              {
-              this.platform.log.debug('Triggered GET On', 'Dining', this.accessory.context.device.state!.zones!['4'].status);
-              return this.accessory.context.device.state!.zones!['5'].status;
-              }
-
-              if (this.accessory.displayName === 'Spare')
-              {
-                this.platform.log.debug('Triggered GET On', 'Study', this.accessory.context.device.state!.zones!['5'].status);
-                return this.accessory.context.device.state!.zones!['6'].status;
-              }
-              if (this.accessory.displayName === 'Ruby')
-              {
-              this.platform.log.debug('Triggered GET On', 'Dining', this.accessory.context.device.state!.zones!['6'].status);
-              return this.accessory.context.device.state!.zones!['7'].status;
-              }
-
-*/
               const Zonelookup = {
               'Dining': '0',
               'Study': '1',
@@ -251,23 +214,27 @@ async handleOnGetState() : Promise<CharacteristicValue> {
               //const s = await this.melviewService!.getStatus(this.accessory.context.device.id);
               //this.platform.log.debug('status', s);
               //this.platform.log.debug('power check', this.accessory.context.device.state);
+              const zonename = this.accessory.displayName;
+              const zonearray = Zonelookup[zonename];
 
 
               //Attemped to detect unit device power and update fans to off - but failed.
-              //f (this.accessory.context.device.power === 'off')
-              //{
-              //  this.platform.log.debug('update as off');
-              //  return 0;
-              //}
-              //else {
-            //this.platform.log.debug(this.accessory.displayName);
+              if (this.accessory.context.device.state.power === 0)
+              {
+               //this.platform.log.debug('update as off');
+              //return this.accessory.context.device.state!.zones![zonearray].status;
+              return 0;
 
-            const zonename = this.accessory.displayName;
-            const zonearray = Zonelookup[zonename];
+              }
+              else {
+          //  this.platform.log.info(this.accessories.find(this.platform.uuid));
+
+            //const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
             this.platform.log.debug('Triggered GET On', zonename, this.accessory.context.device.state!.zones![zonearray].status);
             return this.accessory.context.device.state!.zones![zonearray].status;
 
-          }
+         }
+        }
 
             /**
              * Handle requests to set the "On" characteristic

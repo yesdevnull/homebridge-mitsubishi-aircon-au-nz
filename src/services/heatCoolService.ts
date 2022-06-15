@@ -11,6 +11,7 @@ import {
 import {WithUUID} from "hap-nodejs";
 import {ZoneAccessory} from "../platformAccessory";
 export class HeatCoolService extends AbstractService {
+  public readonly accessories: PlatformAccessory[] = [];
     constructor(
         protected readonly platform: MelviewMitsubishiHomebridgePlatform,
         protected readonly accessory: PlatformAccessory,
@@ -72,6 +73,39 @@ export class HeatCoolService extends AbstractService {
     async setActive(value: CharacteristicValue) {
         await this.platform.melviewService?.command(
             new CommandPower(value, this.device, this.platform));
+            //this.platform.log.error('power***', value);
+
+
+            const b = this.accessory.context.device.state!;//.zones[1].zoneid;
+            //this.platform.log.error('power***', b);
+
+            for (let k = 0; k < b.zones.length; k++)
+            {
+              const zone = b.zones[k];
+                //const c = this.accessory.context.device.state!.zones![0].name;//.zones[1].zoneid;
+                //this.platform.log.error('Trigger an update to zones!!', c);
+            //this.platform.log.error('acc', this.platform.accessories); //all accessories on the platform. :)
+            //const uuid = this.api.hap.uuid.generate(zone.name);
+            //const uuid = 'dd2e0a14-6461-4570-bc80-589826942d30'
+            const existingzoneaccessory = this.platform.accessories.find(zoneaccessory => zoneaccessory.displayName === zone.name);
+            //this.platform.log.error('zones!!', existingzoneaccessory);
+            //existingzoneaccessory.service.updateCharacteristic(this.platform.Characteristic.Active.INACTIVE);
+            if (existingzoneaccessory){
+                  let service = existingzoneaccessory.getService(this.platform.Service.Fanv2);
+                if (service){
+                      if (value === 0) { //ac power off override status as off (not setting just updating.)
+                          service.updateCharacteristic(this.platform.Characteristic.Active, 0);
+                          }
+                          else // ac power on restore status
+                          {
+                            service.updateCharacteristic(this.platform.Characteristic.Active, zone.status);
+                          }
+                  }
+                }
+            }// end Loop
+
+
+            //this.service.updateCharacteristic(Active, 0)
           //   await this.platform.ZoneAccessory.command(new ZoneAccessory(this.platform, this.accessory));
         // Default value
         // let v = -1;
