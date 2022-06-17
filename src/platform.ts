@@ -50,7 +50,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
      * It should be used to setup event handlers for characteristics and update respective values.
      */
 
-     //this will find all accessories (zone and device)
+    //this will find all accessories (zone and device)
     configureAccessory(accessory: PlatformAccessory) {
       this.log.info('Loading accessory from cache:', accessory.displayName, accessory.UUID);
 
@@ -74,10 +74,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
 
         for (let j = 0; j < r.length; j++) {
           const b = r[j];
-          this.log.info('Discovered Building [', b.buildingid, '] = \'', b.building,
-            '\' with', b.units.length, 'units!'
-            //,b.units //this dsiplays the unit info includuing status
-          );
+          this.log.info('Discovered Building [', b.buildingid, '] = \'', b.building, '\' with', b.units.length, 'units!');
 
           for (let i = 0; i < b.units.length; i++) {
             const device = b.units[i];
@@ -143,58 +140,49 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
             }
 
             //Create Zone Loop
-            const addZones = this.config.zones
+            const addZones = this.config.zones;
 
-            if (addZones === true)
-            {
-            //moved capabilites to get zone info
-            const c = await this.melviewService!.capabilities(device.unitid);
-          //this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
+            if (addZones === true) {
+              //moved capabilites to get zone info
+              const c = await this.melviewService!.capabilities(device.unitid);
+              //this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
 
-            for (let k = 0; k < c.zones.length; k++)
-            {
-              const zone = c.zones[k];
+              for (let k = 0; k < c.zones.length; k++) {
+                const zone = c.zones[k];
 
-              if (zone.display === 1 ) //displayed in the API
-              {
-              //this.log.info('ZoneLoop', zone.zoneid, zone.name);
-              const uuid = this.api.hap.uuid.generate(zone.name);
-              this.log.debug('ZONE IDS:', zone.name, uuid);
+                if (zone.display === 1 ) { //displayed in the API
+                  //this.log.info('ZoneLoop', zone.zoneid, zone.name);
+                  const uuid = this.api.hap.uuid.generate(zone.name);
+                  this.log.debug('ZONE IDS:', zone.name, uuid);
 
-              const existingzoneaccessory = this.accessories.find(zoneaccessory => zoneaccessory.UUID === uuid);
-              //this.log.debug('exisiting:', existingzoneaccessory.displayName, uuid);
+                  const existingzoneaccessory = this.accessories.find(zoneaccessory => zoneaccessory.UUID === uuid);
+                  //this.log.debug('exisiting:', existingzoneaccessory.displayName, uuid);
 
-              if (existingzoneaccessory)
-              {
-              this.log.info('Restoring existing accessory from cache:', existingzoneaccessory.displayName, uuid);
-
-              //find current Status
-              const s = await this.melviewService!.getStatus(device.unitid);
-              //this.log.debug('Zone Status', s);
-              existingzoneaccessory.context.device.state = s;
-              //existingzoneaccessory.context.device = device;
-              //this.log.info('exsisitngINfoContext', existingzoneaccessory.context.device.state);
-              new ZoneAccessory(this, existingzoneaccessory);
-
-              }
-              else // zoneaccessory is already in place?
-              {
-                const zoneaccessory = new this.api.platformAccessory(zone.name, uuid);
-                zoneaccessory.context.device = device;
-                new ZoneAccessory(this, zoneaccessory);
-                this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [zoneaccessory]);
-                //******** this is the area of need?
-                this.accessories.push(zoneaccessory);
-
-              }
-            }
-            } //end Zone loop
-          } //end addZones
+                  if (existingzoneaccessory) {
+                    this.log.info('Restoring existing accessory from cache:', existingzoneaccessory.displayName, uuid);
+                    //find current Status
+                    const s = await this.melviewService!.getStatus(device.unitid);
+                    //this.log.debug('Zone Status', s);
+                    existingzoneaccessory.context.device.state = s;
+                    //existingzoneaccessory.context.device = device;
+                    //this.log.info('exsisitngINfoContext', existingzoneaccessory.context.device.state);
+                    new ZoneAccessory(this, existingzoneaccessory);
+                  } else { // zoneaccessory is already in place?
+                    const zoneaccessory = new this.api.platformAccessory(zone.name, uuid);
+                    zoneaccessory.context.device = device;
+                    new ZoneAccessory(this, zoneaccessory);
+                    this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [zoneaccessory]);
+                    //******** this is the area of need?
+                    this.accessories.push(zoneaccessory);
+                  }
+                }
+              } //end Zone loop
+            } //end addZones
+          }
         }
-        }
-          } catch(e) {
+      } catch(e) {
         this.log.error('Failed to process platform discovery. Fix the problem and restart the service.');
         this.log.debug(e);
       }
     }
-  }
+}

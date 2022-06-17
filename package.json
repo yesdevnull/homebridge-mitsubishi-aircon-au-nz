@@ -1,15 +1,15 @@
 {
-  "displayName": "AU/NZ Mitsubishi Air-Conditioners Bridge",
-  "name": "homebridge-airconditioner-mitsubishi-au-nz",
-  "version": "1.2.6",
-  "description": "Control your Mitsubishi Aircon units with Homebridge and Apple HomeKit",
+  "displayName": "AU/NZ Mitsubishi Air-Conditioners with Zone",
+  "name": "homebridge-mitsubishi-aircon-au-nz",
+  "version": "1.0.1",
+  "description": "Control your Mitsubishi Aircon units with Homebridge and Apple HomeKit. THis plugin also support zones for ducted a/c systems. Exposing a seperate fan accessory for each zone.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/aurc/melview-mitsubishi-au-nz.git"
+    "url": "https://github.com/jherden84/melview-mitsubishi-au-nz.git"
   },
   "bugs": {
-    "url": "https://github.com/aurc/melview-mitsubishi-au-nz/issues"
+    "url": "https://github.com/jherden84/melview-mitsubishi-au-nz/issues"
   },
   "engines": {
     "node": ">=10.17.0",
