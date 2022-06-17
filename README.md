@@ -5,19 +5,13 @@
 
 </p>
 
-# Homebridge Melview AU/NZ Airconditioners
+# Homebridge Melview AU/NZ Airconditioners - with Zone Support
 
-[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
+Use this plugin to integrate your Mitsubishi AirConditioner appliances with Apple's HomeKit using Homebridge. It now also supports zone controls on ducted A/C.
 
-[![npm](https://img.shields.io/npm/v/homebridge-airconditioner-mitsubishi-au-nz/latest?label=latest)](https://www.npmjs.com/package/homebridge-airconditioner-mitsubishi-au-nz)
-[![GitHub release](https://img.shields.io/github/release/aurc/melview-mitsubishi-au-nz.svg)](https://github.com/aurc/melview-mitsubishi-au-nz/releases)
-[![npm](https://img.shields.io/npm/dt/homebridge-airconditioner-mitsubishi-au-nz)](https://www.npmjs.com/package/homebridge-airconditioner-mitsubishi-au-nz)
+This plugin was folked from AURC plugin to add additonal support as the previous plugin was no longer being updated. https://github.com/aurc/melview-mitsubishi-au-nz/releases
 
-[![Github CI](https://github.com/aurc/melview-mitsubishi-au-nz/actions/workflows/build.yml/badge.svg)](https://github.com/aurc/melview-mitsubishi-au-nz/actions)
-[![Github CD](https://github.com/aurc/melview-mitsubishi-au-nz/actions/workflows/release.yml/badge.svg)](https://github.com/aurc/melview-mitsubishi-au-nz/actions)
-[![Hex.pm](https://img.shields.io/hexpm/l/plug)](https://www.apache.org/licenses/LICENSE-2.0)
-
-TESTING Use this plugin to integrate your Mitsubishi Airconditioner appliances with Apple's HomeKit using Homebridge.
+This is my first plugin for homebridge. Please log any issues and I will try to help.
 
 ## Overview
 
@@ -30,10 +24,14 @@ This plugin allows you to control the basic functionalities of your AC units thr
   this feature is not extensively tested.
 - Set desired temperature
 - Obtain unit status, e.g. power, mode, room temperature and desired temperature.
+**NEW**
+- Allows control of Zones in ducted Mitsubishi Units. Each Zone will be exposed as a seperate fan accessory in HomeKit.
 
-This project is a hobby project and was created to address the need for a stable plugin
-in AU/NZ to control Mitsubishi Air Conditioners. It was possible due to the great
-reverse engineering effort done by these folks: [NovaGL/diy-melview](https://github.com/NovaGL/diy-melview).
+
+This original project by aurc was created to address the need for a stable plugin
+in AU/NZ to control Mitsubishi Air Conditioners. https://github.com/aurc/melview-mitsubishi-au-nz/
+It would not have been possible without the great reverse engineering effort done by these folks: [NovaGL/diy-melview](https://github.com/NovaGL/diy-melview).
+
 
 Also note that the [Homebridge](https://homebridge.io/) put together excellent developer
 documentation which made it possible to get up and running quickly (e.g.
@@ -53,11 +51,6 @@ In a nutshell, if you were able to install the **[Wi-Fi Control App](https://app
 
 Netheless to say, you should have **[Homebridge](https://homebridge.io/)** running.
 
-## Coming Soon
-Some capabilities are not yet available and should be released soon:
-- Fan (FAN) mode;
-- Swing;
-
 ## Known issues
 - **Dry mode**: Does not control fan speed.
 - **LAN access**: Still requires internet connection, as it authenticates the requests with Melview cloud. It still
@@ -72,6 +65,9 @@ It's highly recommended that you use the [Homebridge Config UI X](https://github
 1. Access the settings and configure the credentials as per the required fields.
 2. Save and restart homebridge.
 3. All units in your network should be automatically recognised. Open your Home App and allocate them to their respective rooms.
+4. To detect and add Zone fucntionality select in the Plugin Config.
+
+
 
 ### Through CLI
 

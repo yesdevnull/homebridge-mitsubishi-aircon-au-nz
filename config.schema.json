@@ -23,6 +23,23 @@
         "type": "boolean",
         "default": false,
         "description": "Dry mode is still in development and is subject to bugs."
+      },
+      "zones": {
+        "title": "Ducted AC Zone Control",
+        "type": "boolean",
+        "default": false,
+        "description": "This will allow you to control individual room/zones on your dcuted A/C via homekit. These Zone will be exposed as seperate accessories. Names will match configuration from A/C unit."
+      },
+      "zonetype": {
+        "title": "Zone Device Type",
+        "type": "string",
+        "default": "none",
+        "description": "Select the type of accessory zones will display as in Homekit. (Fan is currently supported, could add other later ie. switch, light).",
+        "oneOf": [
+                  { "title": "Fan", "enum": ["fan"] },
+                  //{ "title": "None", "enum": ["none"] }
+                ],
+            "required": true
       }
     }
   }

@@ -115,18 +115,6 @@ export enum WorkMode {
     AUTO = 8
 }
 
-/*
-export enum ZName {
-    Dining = 0,
-    Study = 1,
-    Theatre = 2,
-    Master Bed = 3,
-    AJ = 4,
-    Spare = 5
-    Ruby = 6
-    Other = 7
-    }
-    */
 
 export interface Range {
     min: number;

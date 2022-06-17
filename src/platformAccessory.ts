@@ -87,70 +87,36 @@ export class MelviewMitsubishiPlatformAccessory {
       ) {
 
         const device: Unit = accessory.context.device;
-        //this.platform.log.info('SWITCHDevice***:', device);
+
           // set accessory information
+            accessory.getService(this.platform.Service.AccessoryInformation)!
+              .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Mitsubishi Electric')
+              .setCharacteristic(this.platform.Characteristic.Model, device.capabilities!.adaptortype)
+              .setCharacteristic(this.platform.Characteristic.SerialNumber, device.unitid);
 
-          //this.accessory.getService(this.platform.Service.AccessoryInformation)!
-          //  .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Mitsubishi Electric')
-          //  .setCharacteristic(this.platform.Characteristic.Model, device.capabilities!.adaptortype)
-          //  .setCharacteristic(this.platform.Characteristic.SerialNumber, device.unitid);
-
-            //accessory = new this.api.platformAccessory('zone', 'uuid');
-            //this.service = new accessory.service(this.platform, this.accessory);
             let service = accessory.getService(this.platform.Service.Fanv2);
             this.platform.log.info('Device Found:', accessory.displayName, device.room, ' [COMPLETED]');
 
-            // otherwise create a new LightBulb service
+            // otherwise create a new device service (Fanv2)
             if (!service) {
               service = accessory.addService(this.platform.Service.Fanv2);
             //this.service = new this.service(this.Service.Switch)
-            //this.platform.log.info('NewSWITHCServiceAdded***:', device.room, ' [COMPLETED]');
           }
-            //this.service.getCharacteristic(this.platform.Characteristic.On);
-            //service.updateCharacteristic(this.platform.Characteristic.On, 1);
 
-/*
-            if (accessory.displayName === 'Dining')
-            {
-              const value = device.state!.zones!['0'].status;
-              this.platform.log.info(accessory.displayName, 'Status', value);
-            service.setCharacteristic(this.platform.Characteristic.On, value);
-                    .onGet(this.handleOnGet.bind(this))
-                    .onSet(this.handleOnSet.bind(this));
-            }
-
-            if (accessory.displayName === 'Study')
-            {
-              const value = device.state!.zones!['1'].status;
-              this.platform.log.info(accessory.displayName, 'Status', value);
-            service.getCharacteristic(this.platform.Characteristic.On)
-                  .onGet(this.handleOnGet.bind(this))
-                  .onSet(this.handleOnSet.bind(this));
-            }
-
-*/
-      //const cachedAccessories = this.accessories.find(accessory => accessory.UUID === accessory.context.device.uuid);
     //this.platform.log.info('DeviceList **POWER**', accessory, accessory.context.device.state.power);
-
       service.getCharacteristic(this.platform.Characteristic.Active)
               .onGet(this.handleOnGet.bind(this))
               .onSet(this.handleOnSet.bind(this));
 
-
-//service.getCharacteristic(this.platform.Characteristic.CurrentFanState)
-//              .onGet(this.handleOnGetState.bind(this))
-
-
-
 //consider using fan state for when A/c is off??
+// not perfect as shows on and have to manually toggel?
+
     //service.getCharacteristic(this.platform.Characteristic.RotationSpeed)
       //.onGet(this.handleOnGetState.bind(this))
 
             /*********************************************************
              * Polling for state change
              *********************************************************/
-
-
             setInterval(() => {
               this.platform.melviewService?.getStatus(
                 this.accessory.context.device.unitid)
@@ -176,110 +142,65 @@ async handleOnGetState() : Promise<CharacteristicValue> {
   //  const currentValue = this.Characteristic.CurrentFanState.BLOWING_AIR;
     return currentValue;
 }
-          /*  async getCurrentZone(): Promise<CharacteristicValue> {
-              if (accessory.displayName === 'Dining')
-              {const value = device.state!.zones!['0'].status;
-                this.platform.log.info(accessory.displayName, 'Status', value);
-              service.getCharacteristic(this.platform.Characteristic.On, value);
-              }
 
-              if (accessory.displayName === 'Study')
-              {const value = device.state!.zones!['1'].status;
-                this.platform.log.info(accessory.displayName, 'Status', value);
-              service.getCharacteristic(this.platform.Characteristic.On, value);
-              }
-            }*/
-
-            //sync getSwitchState(mode?:number): Promise<CharacteristicValue> {
-            //  if (!mode) {
-            //      mode = this.device.state!.setmode;
-            //      const c = this.platform.api.hap.Characteristic;
-
-
-            //this.platform.log.info('zonestatus', zonestatus, zonestatus3, zonestatus4);
             async handleOnGet() : Promise<CharacteristicValue> {
 
-              const Zonelookup = {
-              'Dining': '0',
-              'Study': '1',
-              'Theatre ': '2', //theatre has a space doh!
-              'Master Bed': '3',
-              'AJ': '4',
-              'Spare': '5',
-              'Ruby': '6',
-              //Case 'Other': return '7';
-              };
-              //const c = await this.melviewService!.capabilities('156447';
-              //this.platform.log.debug('cpabilities', c);
-              //const s = await this.melviewService!.getStatus(this.accessory.context.device.id);
-              //this.platform.log.debug('status', s);
-              //this.platform.log.debug('power check', this.accessory.context.device.state);
+              //passed through displayname
               const zonename = this.accessory.displayName;
-              const zonearray = Zonelookup[zonename];
 
+              //returns the sotred zone information block based on name e.g. { zoneid: 1, status: 1, name: 'Dining' }
+              const zoneinfo = this.accessory.context.device.state.zones.find(zone => zone.name === this.accessory.displayName)
 
-              //Attemped to detect unit device power and update fans to off - but failed.
+              /* //Keep this please for troubleshooting
+              this.platform.log.info('MAPPING CHECK - zones not !', zonename, this.accessory.context.device.state.zones);
+              this.platform.log.info('MAPPING CHECK - find!', this.accessory.context.device.state.zones.find(zone => zone.name === this.accessory.displayName));
+              this.platform.log.info('MAPPING CHECK - result!', zoneinfo.zoneid);
+              */
+
+              if (zoneinfo.zoneid)
+              {
+              const zonearray = (zoneinfo.zoneid-1) // give array position as arrays start at 0
+
               if (this.accessory.context.device.state.power === 0)
               {
-               //this.platform.log.debug('update as off');
-              //return this.accessory.context.device.state!.zones![zonearray].status;
-              return 0;
+              return 0; //ac power off, Zones updated in app to off.
 
               }
-              else {
-          //  this.platform.log.info(this.accessories.find(this.platform.uuid));
+              else { //power is on
 
-            //const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
-            this.platform.log.debug('Triggered GET On', zonename, this.accessory.context.device.state!.zones![zonearray].status);
-            return this.accessory.context.device.state!.zones![zonearray].status;
-
+              this.platform.log.debug('getZoneAccessoryState', zonename, (this.accessory.context.device.state!.zones![zonearray].status ===1)?': ON':': OFF');
+              return this.accessory.context.device.state!.zones![zonearray].status;
+              }
+            }
+              else  //zoneid is undefined
+              {
+                this.platform.log.error('** UNDEFINED ZoneAccessory onGet(), Unable to find zone, Zone status has been set off but may be on **')
+                return 0;
+              }
          }
-        }
 
             /**
              * Handle requests to set the "On" characteristic
              */
              async handleOnSet(value) {
 
-               const Zonelookup = {
-               'Dining': 'Z1',
-               'Study': 'Z2',
-               'Theatre ': 'Z3',
-               'Master Bed': 'Z4',
-               'AJ': 'Z5',
-               'Spare': 'Z6',
-               'Ruby': 'Z7',
+            //returns the sotred zone information block based on name e.g. { zoneid: 1, status: 1, name: 'Dining' }
+             const zoneinfo = this.accessory.context.device.state.zones.find(zone => zone.name === this.accessory.displayName)
 
-             };
+             //const newValue = Zonelookup[this.accessory.displayName]+ +value;
+             //We are wanting to send command e.g. 'Z11' for 'Z'(zoneid)(1=on; 0=off)
 
-             const newValue = Zonelookup[this.accessory.displayName]+ +value;
-             this.platform.log.debug('Zone Set:', this.accessory.displayName, value);
+             if (zoneinfo.zoneid) //undefined
+             {
+             const newValue = 'Z'+zoneinfo.zoneid+ +value
+             this.platform.log.debug('setZoneAccessoryState:', this.accessory.displayName, (value ===1)?': ON':': OFF (', newValue, ')');
              await this.platform.melviewService?.command(
                  new CommandZone(newValue, this.accessory.context.device, this.platform));
-
-             /*
-              //this.platform.log.debug('Triggered SET On:', value);
-              if (this.accessory.displayName === 'Dining')
-              {
-                //homekit send value ture false
-                const newValue = 'Z1'+ +value;
-              this.platform.log.debug('Triggered SET On', 'Dining', (newValue));
-              await this.platform.melviewService?.command(
-                  new CommandZone(newValue, this.accessory.context.device, this.platform));
-
-              }
-
-              if (this.accessory.displayName === 'Study')
-              {
-                //homekit send value ture false
-                const newValue = 'Z2'+ +value;
-              this.platform.log.debug('Triggered SET On', 'Study', (newValue));
-              await this.platform.melviewService?.command(
-                  new CommandZone(newValue, this.accessory.context.device, this.platform));
-
-              }
-              */
-
-
+               }
+               else
+               {
+                 this.platform.log.error('** UNDEFINED ZoneAccessory onSet(), Unable to find zone, Zone status has not been set **')
+               }
             }
-}
+
+          }

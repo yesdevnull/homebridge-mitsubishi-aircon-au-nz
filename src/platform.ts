@@ -143,7 +143,10 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
             }
 
             //Create Zone Loop
+            const addZones = this.config.zones
 
+            if (addZones === true)
+            {
             //moved capabilites to get zone info
             const c = await this.melviewService!.capabilities(device.unitid);
           //this.log.debug('1Dump of Capabilities for Audit', c); //working removed.
@@ -184,34 +187,10 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
                 this.accessories.push(zoneaccessory);
 
               }
-
-
-              } else { //this.log.info('ZoneLoop= Skipping', zone.zoneid, ' ', zone.name);
-              //not needed as unused Zones
-              }//end else
-
-              //Create Accessories....
-/*
-              class ExampleStaticPlatform implements StaticPlatformPlugin {
-                private readonly log: Logging;
-                constructor(log: Logging, config: PlatformConfig, api: API) {
-                  this.log = log;
-
-                  // probably parse config or something here
-                  log.info("Example platform finished initializing!");
-                  }
-
-              accessories(callback: (foundAccessories: AccessoryPlugin[]) => void): void {
-                callback([
-                  new ExampleSwitch(hap, this.log, "Switch 1"),
-                  new ExampleSwitch(hap, this.log, "Switch 2"),
-                  ]);
-              }
             }
-*/
             } //end Zone loop
-
-          }
+          } //end addZones
+        }
         }
           } catch(e) {
         this.log.error('Failed to process platform discovery. Fix the problem and restart the service.');

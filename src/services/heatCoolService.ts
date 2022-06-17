@@ -1,5 +1,5 @@
 import {MelviewMitsubishiHomebridgePlatform} from "../platform";
-import {CharacteristicValue, PlatformAccessory, Service} from "homebridge";
+import {CharacteristicValue, PlatformAccessory, Service, PlatformConfig} from "homebridge";
 import {WorkMode} from "../data";
 import {AbstractService} from "./abstractService";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../melviewCommand";
 import {WithUUID} from "hap-nodejs";
 import {ZoneAccessory} from "../platformAccessory";
+
 export class HeatCoolService extends AbstractService {
   public readonly accessories: PlatformAccessory[] = [];
     constructor(
@@ -75,15 +76,18 @@ export class HeatCoolService extends AbstractService {
             new CommandPower(value, this.device, this.platform));
             //this.platform.log.error('power***', value);
 
-
             const b = this.accessory.context.device.state!;//.zones[1].zoneid;
             //this.platform.log.error('power***', b);
 
+            //this is the test to check if Zones are present, if there are defined zones (more than 2) proceed to find accessory.
+            if (b.zones.lenth || b.zones.length >=2)
+            {
+              this.platform.log.debug('Looking for zones to update:', b.zones.length, 'found. Proceeding to find accessories and updateCharacteristic');
             for (let k = 0; k < b.zones.length; k++)
             {
               const zone = b.zones[k];
                 //const c = this.accessory.context.device.state!.zones![0].name;//.zones[1].zoneid;
-                //this.platform.log.error('Trigger an update to zones!!', c);
+
             //this.platform.log.error('acc', this.platform.accessories); //all accessories on the platform. :)
             //const uuid = this.api.hap.uuid.generate(zone.name);
             //const uuid = 'dd2e0a14-6461-4570-bc80-589826942d30'
@@ -95,38 +99,18 @@ export class HeatCoolService extends AbstractService {
                 if (service){
                       if (value === 0) { //ac power off override status as off (not setting just updating.)
                           service.updateCharacteristic(this.platform.Characteristic.Active, 0);
+                          this.platform.log.debug('updateCharacteristic', zone.name, ': OFF (as AC is OFF)');
                           }
                           else // ac power on restore status
                           {
                             service.updateCharacteristic(this.platform.Characteristic.Active, zone.status);
+                            this.platform.log.debug('updateCharacteristic', zone.name, (zone.status===1)?': ON':': OFF',  '(last found Zone state)');
                           }
                   }
-                }
-            }// end Loop
-
-
-            //this.service.updateCharacteristic(Active, 0)
-          //   await this.platform.ZoneAccessory.command(new ZoneAccessory(this.platform, this.accessory));
-        // Default value
-        // let v = -1;
-        // switch (this.device.state?.setmode) {
-        //     case WorkMode.HEAT:
-        //         v = this.platform.Characteristic.TargetHeaterCoolerState.HEAT;
-        //         break;
-        //     case WorkMode.COOL:
-        //         v = this.platform.Characteristic.TargetHeaterCoolerState.COOL;
-        //         break;
-        //     case WorkMode.AUTO:
-        //         v = this.platform.Characteristic.TargetHeaterCoolerState.AUTO;
-        //         break;
-        // }
-        // if (v !== -1) {
-        //     this.log.info('Setting', this.getDeviceName(), '=', value===0?'OFF':'ON');
-        //     this.platform.melviewService?.command(
-        //         new CommandPower(value, this.device, this.platform),
-        //         new CommandTargetHeaterCoolerState(v, this.device, this.platform));
-        // }
-    }
+                } else {this.platform.log.error('No exisitingzoneaccessory found...Zone (name/ID):', zone.name, zone.zoneid, zone.displayName);}
+            }// zone end Loop
+          }//end zones defined.
+        }
 
     async setCoolingThresholdTemperature(value: CharacteristicValue) {
         this.platform.log.debug('setCoolingThresholdTemperature ->', value);
