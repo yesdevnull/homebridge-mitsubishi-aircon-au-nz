@@ -1,7 +1,7 @@
 {
   "displayName": "AU/NZ Mitsubishi Air-Conditioners with Zone",
   "name": "homebridge-mitsubishi-aircon-au-nz",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Control your Mitsubishi Aircon units with Homebridge and Apple HomeKit. THis plugin also support zones for ducted a/c systems. Exposing a seperate fan accessory for each zone.",
   "license": "Apache-2.0",
   "repository": {
