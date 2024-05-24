@@ -14,14 +14,14 @@ import {MelviewService} from './melviewService';
  */
 
 export class MelviewMitsubishiPlatformAccessory {
-    private dryService?: DryService;
-    private acService: HeatCoolService;
-    constructor(
+  private dryService?: DryService;
+  private acService: HeatCoolService;
+  constructor(
         private readonly platform: MelviewMitsubishiHomebridgePlatform,
         private readonly accessory: PlatformAccessory,
-    ) {
-      const device: Unit = accessory.context.device;
-      //this.platform.log.info('melview-device-logging***:', device);
+  ) {
+    const device: Unit = accessory.context.device;
+    //this.platform.log.info('melview-device-logging***:', device);
         // set accessory information
         this.accessory.getService(this.platform.Service.AccessoryInformation)!
           .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Mitsubishi Electric')
@@ -65,7 +65,7 @@ export class MelviewMitsubishiPlatformAccessory {
               this.platform.log.debug(e);
             });
         }, 5000);
-    }
+  }
 }
 
 export class ZoneAccessory {
