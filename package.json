@@ -11,6 +11,7 @@
   "bugs": {
     "url": "https://github.com/yesdevnull/homebridge-mitsubishi-aircon-au-nz/issues"
   },
+  "type": "module",
   "engines": {
     "homebridge": "^1.7.0",
     "node": "^18 || ^20"
