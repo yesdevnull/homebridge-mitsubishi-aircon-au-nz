@@ -36,7 +36,7 @@ export class HeatCoolService extends AbstractService {
         const cool = this.device.state!.max![WorkMode.COOL + ''];
         this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minValue = cool.min;
         this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.maxValue = cool.max;
-        this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minStep = 0.5;
+        this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minStep = 1;
 
         this.service.getCharacteristic(this.hap.Characteristic.HeatingThresholdTemperature)
             .onSet(this.setHeatingThresholdTemperature.bind(this))
@@ -44,7 +44,7 @@ export class HeatCoolService extends AbstractService {
         const heat = this.device.state!.max![WorkMode.HEAT + ''];
         this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minValue = heat.min;
         this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.maxValue = heat.max;
-        this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minStep = 0.5;
+        this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minStep = 1;
     }
 
     protected getServiceType<T extends WithUUID<typeof Service>>(): T {
