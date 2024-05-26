@@ -1,121 +1,119 @@
-import {MelviewMitsubishiHomebridgePlatform} from "../platform";
-import {CharacteristicValue, PlatformAccessory, Service, PlatformConfig} from "homebridge";
-import {WorkMode} from "../data";
-import {AbstractService} from "./abstractService";
+import { MelviewMitsubishiHomebridgePlatform } from "../platform";
+import { CharacteristicValue, PlatformAccessory, Service, PlatformConfig } from "homebridge";
+import { WorkMode } from "../data";
+import { AbstractService } from "./abstractService";
 import {
     CommandPower,
     CommandRotationSpeed,
     CommandTargetHeaterCoolerState,
     CommandTemperature
 } from "../melviewCommand";
-import {WithUUID} from "hap-nodejs";
-import {ZoneAccessory} from "../platformAccessory";
+import { WithUUID } from "hap-nodejs";
+import { ZoneAccessory } from "../zoneAccessory";
 
 export class HeatCoolService extends AbstractService {
-  public readonly accessories: PlatformAccessory[] = [];
+    public readonly accessories: PlatformAccessory[] = [];
     constructor(
         protected readonly platform: MelviewMitsubishiHomebridgePlatform,
         protected readonly accessory: PlatformAccessory,
     ) {
         super(platform, accessory);
 
-        this.service.getCharacteristic(this.platform.Characteristic.CurrentHeaterCoolerState)
+        this.service.getCharacteristic(this.hap.Characteristic.CurrentHeaterCoolerState)
             .onGet(this.getCurrentHeaterCoolerState.bind(this));
-        this.service.getCharacteristic(this.platform.Characteristic.TargetHeaterCoolerState)
+        this.service.getCharacteristic(this.hap.Characteristic.TargetHeaterCoolerState)
             .onSet(this.setTargetHeaterCoolerState.bind(this))
             .onGet(this.getTargetHeaterCoolerState.bind(this));
 
-        this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature)
+        this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature)
             .onGet(this.getCurrentTemperature.bind(this));
-        this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature).props.minValue = -50;
-        this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature).props.maxValue = 70;
-        this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature).props.minStep = 0.5;
+        this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.minValue = -50;
+        this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.maxValue = 70;
+        this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.minStep = 0.5;
 
-        this.service.getCharacteristic(this.platform.Characteristic.CoolingThresholdTemperature)
+        this.service.getCharacteristic(this.hap.Characteristic.CoolingThresholdTemperature)
             .onSet(this.setCoolingThresholdTemperature.bind(this))
             .onGet(this.getCoolingThresholdTemperature.bind(this));;
         const cool = this.device.state!.max![WorkMode.COOL + ''];
-        this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.minValue = cool.min;
-        this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.maxValue = cool.max;
-        this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.minStep = 0.5;
+        this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minValue = cool.min;
+        this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.maxValue = cool.max;
+        this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minStep = 0.5;
 
-        this.service.getCharacteristic(this.platform.Characteristic.HeatingThresholdTemperature)
+        this.service.getCharacteristic(this.hap.Characteristic.HeatingThresholdTemperature)
             .onSet(this.setHeatingThresholdTemperature.bind(this))
             .onGet(this.getHeatingThresholdTemperature.bind(this));
         const heat = this.device.state!.max![WorkMode.HEAT + ''];
-        this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.minValue = heat.min;
-        this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.maxValue = heat.max;
-        this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.minStep = 0.5;
+        this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minValue = heat.min;
+        this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.maxValue = heat.max;
+        this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minStep = 0.5;
     }
 
-    protected getServiceType<T extends WithUUID<typeof Service>>() : T {
-        return this.platform.Service.HeaterCooler as T;
+    protected getServiceType<T extends WithUUID<typeof Service>>(): T {
+        return this.hap.Service.HeaterCooler as T;
     }
 
     protected getDeviceRoom(): string {
         return this.device.room;
     }
 
-    protected getDeviceName() : string {
+    protected getDeviceName(): string {
         return this.device.name!;
     }
 
     async getActive(): Promise<CharacteristicValue> {
         if (this.device.state?.setmode === WorkMode.DRY ||
-        this.device.state?.setmode === WorkMode.FAN) {
-            return this.platform.Characteristic.Active.INACTIVE;
+            this.device.state?.setmode === WorkMode.FAN) {
+            return this.hap.Characteristic.Active.INACTIVE;
         } else {
-            return this.device.state!.power === 0?
-                this.platform.Characteristic.Active.INACTIVE:
-                this.platform.Characteristic.Active.ACTIVE;
+            return this.device.state!.power === 0 ?
+                this.hap.Characteristic.Active.INACTIVE :
+                this.hap.Characteristic.Active.ACTIVE;
         }
     }
 
     async setActive(value: CharacteristicValue) {
         await this.platform.melviewService?.command(
             new CommandPower(value, this.device, this.platform));
-            //this.platform.log.error('power***', value);
+        //this.platform.log.error('power***', value);
 
-            const b = this.accessory.context.device.state!;//.zones[1].zoneid;
-            //this.platform.log.error('power***', b);
+        const b = this.accessory.context.device.state!;//.zones[1].zoneid;
+        //this.platform.log.error('power***', b);
 
-            //this is the test to check if Zones are present, if there are defined zones (more than 2) proceed to find accessory.
-            if (b.zones.lenth || b.zones.length >=2)
-            {
-              this.platform.log.debug('Looking for zones to update:', b.zones.length, 'found. Proceeding to find accessories and updateCharacteristic');
-            for (let k = 0; k < b.zones.length; k++)
-            {
-              const zone = b.zones[k];
+        //this is the test to check if Zones are present, if there are defined zones (more than 2) proceed to find accessory.
+        if (b.zones.lenth || b.zones.length >= 2) {
+            this.platform.log.debug('Looking for zones to update:', b.zones.length, 'found. Proceeding to find accessories and updateCharacteristic');
+            for (let k = 0; k < b.zones.length; k++) {
+                const zone = b.zones[k];
                 //const c = this.accessory.context.device.state!.zones![0].name;//.zones[1].zoneid;
 
-            //this.platform.log.error('acc', this.platform.accessories); //all accessories on the platform. :)
-            //const uuid = this.api.hap.uuid.generate(zone.name);
-            //const uuid = 'dd2e0a14-6461-4570-bc80-589826942d30'
-            const existingzoneaccessory = this.platform.accessories.find(zoneaccessory => zoneaccessory.displayName === zone.name);
-            //this.platform.log.error('zones!!', existingzoneaccessory);
-            //existingzoneaccessory.service.updateCharacteristic(this.platform.Characteristic.Active.INACTIVE);
-            if (existingzoneaccessory){
-                  let service = existingzoneaccessory.getService(this.platform.Service.Fanv2);
-                if (service){
-                      if (value === 0) { //ac power off override status as off (not setting just updating.)
-                          service.updateCharacteristic(this.platform.Characteristic.Active, 0);
-                          this.platform.log.debug('updateCharacteristic', zone.name, ': OFF (as AC is OFF)');
-                          }
-                          else // ac power on restore status
-                          {
-                            service.updateCharacteristic(this.platform.Characteristic.Active, zone.status);
-                            this.platform.log.debug('updateCharacteristic', zone.name, (zone.status===1)?': ON':': OFF',  '(last found Zone state)');
-                          }
-                  }
-                } else {this.platform.log.error('No exisitingzoneaccessory found...Zone (name/ID):', zone.name, zone.zoneid, zone.displayName);}
+                //this.platform.log.error('acc', this.platform.accessories); //all accessories on the platform. :)
+                //const uuid = this.api.hap.uuid.generate(zone.name);
+                //const uuid = 'dd2e0a14-6461-4570-bc80-589826942d30'
+                const existingzoneaccessory = this.platform.accessories.find(zoneaccessory => zoneaccessory.displayName === zone.name);
+                //this.platform.log.error('zones!!', existingzoneaccessory);
+                //existingzoneaccessory.service.updateCharacteristic(this.hap.Characteristic.Active.INACTIVE);
+                if (existingzoneaccessory) {
+                    let service = existingzoneaccessory.getService(this.hap.Service.Fanv2);
+                    if (service) {
+                        if (value === 0) { //ac power off override status as off (not setting just updating.)
+                            service.updateCharacteristic(this.hap.Characteristic.Active, 0);
+                            this.platform.log.debug('updateCharacteristic', zone.name, ': OFF (as AC is OFF)');
+                        }
+                        else // ac power on restore status
+                        {
+                            service.updateCharacteristic(this.hap.Characteristic.Active, zone.status);
+                            this.platform.log.debug('updateCharacteristic', zone.name, (zone.status === 1) ? ': ON' : ': OFF', '(last found Zone state)');
+                        }
+                    }
+                } else { this.platform.log.error('No exisitingzoneaccessory found...Zone (name/ID):', zone.name, zone.zoneid, zone.displayName); }
             }// zone end Loop
-          }//end zones defined.
-        }
+        }//end zones defined.
+    }
 
     async setCoolingThresholdTemperature(value: CharacteristicValue) {
         this.platform.log.debug('setCoolingThresholdTemperature ->', value);
-        const minVal = this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.minValue!;
-        const maxVal = this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.maxValue!;
+        const minVal = this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minValue!;
+        const maxVal = this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.maxValue!;
         if (value! < minVal) {
             this.platform.log.warn('setCoolingThresholdTemperature ->', value, 'is illegal - updating to', minVal);
             value = minVal;
@@ -129,8 +127,8 @@ export class HeatCoolService extends AbstractService {
 
     async getCoolingThresholdTemperature(): Promise<CharacteristicValue> {
         const temp = parseFloat(this.device.state!.settemp)
-        const minVal = this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.minValue!;
-        const maxVal = this.service.getCharacteristic(this.characterisitc.CoolingThresholdTemperature).props.maxValue!;
+        const minVal = this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minValue!;
+        const maxVal = this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.maxValue!;
         if (temp < minVal) {
             return minVal;
         } else if (temp > maxVal) {
@@ -141,8 +139,8 @@ export class HeatCoolService extends AbstractService {
 
     async setHeatingThresholdTemperature(value: CharacteristicValue) {
         this.platform.log.debug('setHeatingThresholdTemperature:', value);
-        const minVal = this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.minValue!;
-        const maxVal = this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.maxValue!;
+        const minVal = this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minValue!;
+        const maxVal = this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.maxValue!;
         if (value! < minVal) {
             this.platform.log.warn('setHeatingThresholdTemperature ->', value, 'is illegal - updating to', minVal);
             value = minVal;
@@ -157,8 +155,8 @@ export class HeatCoolService extends AbstractService {
 
     async getHeatingThresholdTemperature(): Promise<CharacteristicValue> {
         const temp = parseFloat(this.device.state!.settemp)
-        const minVal = this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.minValue!;
-        const maxVal = this.service.getCharacteristic(this.characterisitc.HeatingThresholdTemperature).props.maxValue!;
+        const minVal = this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minValue!;
+        const maxVal = this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.maxValue!;
         if (temp < minVal) {
             return minVal;
         } else if (temp > maxVal) {
@@ -167,7 +165,7 @@ export class HeatCoolService extends AbstractService {
         return temp;
     }
 
-    async getCurrentHeaterCoolerState(mode?:number): Promise<CharacteristicValue> {
+    async getCurrentHeaterCoolerState(mode?: number): Promise<CharacteristicValue> {
         if (!mode) {
             mode = this.device.state!.setmode;
         }
@@ -212,7 +210,7 @@ export class HeatCoolService extends AbstractService {
         this.platform.log.debug('setTargetHeaterCoolerState ->', value);
         await this.platform.melviewService?.command(
             new CommandTargetHeaterCoolerState(value, this.device, this.platform));
-        const c = this.platform.Characteristic;
+        const c = this.hap.Characteristic;
         switch (value) {
             case c.TargetHeaterCoolerState.COOL:
                 this.service.setCharacteristic(c.CurrentHeaterCoolerState, c.CurrentHeaterCoolerState.COOLING);

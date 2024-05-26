@@ -9,22 +9,21 @@ import {
   Service,
 } from 'homebridge';
 
-import {PLATFORM_NAME, PLUGIN_NAME} from './settings';
-import {MelviewMitsubishiPlatformAccessory} from './platformAccessory';
-import {ZoneAccessory} from './platformAccessory';
-import {MelviewService} from './melviewService';
-
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
+import { MelviewMitsubishiPlatformAccessory } from './platformAccessory';
+import { ZoneAccessory } from './zoneAccessory';
+import { MelviewService } from './melviewService';
 
 export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugin {
-  public readonly Service: typeof Service = this.api.hap.Service;
-  public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
+  // public readonly Service: typeof Service = this.api.hap.Service;
+  // public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
   public melviewService?: MelviewService;
   public readonly accessories: PlatformAccessory[] = [];
 
   constructor(
-        public readonly log: Logger,
-        public readonly config: PlatformConfig,
-        public readonly api: API,
+    public readonly log: Logger,
+    public readonly config: PlatformConfig,
+    public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform');
 
@@ -36,7 +35,8 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
     this.melviewService = new MelviewService(
       this.log,
       this.config,
-      this.api);
+      this.api
+    );
 
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
@@ -150,7 +150,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
             for (let k = 0; k < c.zones.length; k++) {
               const zone = c.zones[k];
 
-              if (zone.display === 1 ) { //displayed in the API
+              if (zone.display === 1) { //displayed in the API
                 //this.log.info('ZoneLoop', zone.zoneid, zone.name);
                 const uuid = this.api.hap.uuid.generate(zone.name);
                 this.log.debug('ZONE IDS:', zone.name, uuid);
@@ -180,9 +180,9 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
           } //end addZones
         }
       }
-    } catch(e) {
+    } catch (e) {
       this.log.error('Failed to process platform discovery. Fix the problem and restart the service.');
-      this.log.debug(e);
+      this.log.debug('e', e);
     }
   }
 }

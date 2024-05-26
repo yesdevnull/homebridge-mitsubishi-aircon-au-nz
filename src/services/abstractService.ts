@@ -1,16 +1,21 @@
-import {CharacteristicValue, Logger, PlatformAccessory, Service} from "homebridge";
-import {MelviewMitsubishiHomebridgePlatform} from "../platform";
-import {Unit} from "../data";
-import {WithUUID} from "hap-nodejs";
-import {CommandPower, CommandRotationSpeed} from "../melviewCommand";
+import { API, HAP, CharacteristicValue, Logger, PlatformAccessory, Service } from "homebridge";
+import { MelviewMitsubishiHomebridgePlatform } from "../platform";
+import { Unit } from "../data";
+import { WithUUID } from "hap-nodejs";
+import { CommandPower, CommandRotationSpeed } from "../melviewCommand";
 
 export abstract class AbstractService {
+    public readonly api: API;
+    protected readonly hap: HAP;
+
     protected service: Service;
     public readonly device: Unit;
     protected constructor(
         protected readonly platform: MelviewMitsubishiHomebridgePlatform,
         protected readonly accessory: PlatformAccessory
     ) {
+        this.api = platform.api;
+        this.hap = this.api.hap;
         this.device = accessory.context.device;
         if (!this.device.name) {
             this.device.name = this.getDeviceRoom();
@@ -18,27 +23,27 @@ export abstract class AbstractService {
         this.log.info("Set Device:", this.device.name)
         this.service = this.accessory.getService(this.getServiceType()) ||
             this.accessory.addService(this.getServiceType());
-        this.service.setCharacteristic(this.platform.Characteristic.Name, this.device.name);
+        this.service.setCharacteristic(this.hap.Characteristic.Name, this.device.name);
 
-        this.service.getCharacteristic(this.platform.Characteristic.Active)
+        this.service.getCharacteristic(this.hap.Characteristic.Active)
             .onSet(this.setActive.bind(this))
             .onGet(this.getActive.bind(this));
 
-        this.service.getCharacteristic(this.platform.Characteristic.RotationSpeed)
+        this.service.getCharacteristic(this.hap.Characteristic.RotationSpeed)
             .onSet(this.setRotationSpeed.bind(this))
             .onGet(this.getRotationSpeed.bind(this));
 
     }
 
-    protected abstract getServiceType<T extends WithUUID<typeof Service>>() : T
-    protected abstract getDeviceRoom() : string;
-    protected abstract getDeviceName() : string;
+    protected abstract getServiceType<T extends WithUUID<typeof Service>>(): T;
+    protected abstract getDeviceRoom(): string;
+    protected abstract getDeviceName(): string;
 
-    get characterisitc() {
+    get characteristic() {
         return this.platform.api.hap.Characteristic;
     }
 
-    public getService() : Service {
+    public getService(): Service {
         return this.service!;
     }
 
@@ -50,7 +55,7 @@ export abstract class AbstractService {
 
     abstract setRotationSpeed(value: CharacteristicValue);
 
-    protected get log () : Logger {
+    protected get log(): Logger {
         return this.platform.log;
     }
 }

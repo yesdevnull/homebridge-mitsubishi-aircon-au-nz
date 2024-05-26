@@ -74,11 +74,11 @@ export interface Capabilities {
     zones: Zones[];
 }
 
-export interface Zones{
-  zoneid: number;
-  status: number;
-  name: string;
-  display: number;
+export interface Zones {
+    zoneid: number;
+    status: number;
+    name: string;
+    display: number;
 }
 
 export interface State {
@@ -114,7 +114,6 @@ export enum WorkMode {
     FAN = 7,
     AUTO = 8
 }
-
 
 export interface Range {
     min: number;

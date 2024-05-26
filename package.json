@@ -19,8 +19,7 @@
   "scripts": {
     "lint": "eslint src/**.ts --max-warnings=0",
     "watch": "npm run build && npm link && nodemon",
-    "build": "rimraf ./dist && tsc",
-    "prepublishOnly": "npm run lint && npm run build"
+    "build": "rimraf ./dist && tsc"
   },
   "keywords": [
     "homebridge-plugin"
@@ -38,8 +37,8 @@
     "@typescript-eslint/parser": "7.10.0",
     "eslint": "8.57.0",
     "homebridge": "1.8.2",
-    "nodemon": "3.1.0",
-    "rimraf": "5.0.5",
+    "nodemon": "3.1.1",
+    "rimraf": "5.0.7",
     "ts-node": "10.9.2",
     "typescript": "5.4.5"
   }

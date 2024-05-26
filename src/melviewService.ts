@@ -46,7 +46,7 @@ export class MelviewService {
     try {
       this.extractCookie(response);
     } catch (e) {
-      this.log.debug(e);
+      this.log.debug('e', e);
       throw new Error ('Failed parse response from Melview - check the network.');
     }
     if (!this.auth) {
@@ -201,7 +201,7 @@ export class MelviewService {
         const time = this.auth!.expiryTime(Date.now());
         return (time / (1000 * 60 * 60)) <= 0.0;
       } catch (e) {
-        this.log.error(e);
+        this.log.error('authWillExpire e', e);
         return true;
       }
     }
