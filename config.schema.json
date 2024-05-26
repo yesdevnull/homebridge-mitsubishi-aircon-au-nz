@@ -36,10 +36,20 @@
         "default": "none",
         "description": "Select the type of accessory zones will display as in Homekit. (Fan is currently supported, could add other later ie. switch, light).",
         "oneOf": [
-                  { "title": "Fan", "enum": ["fan"] },
-                  { "title": "None", "enum": ["none"] }
-                ],
-            "required": true
+          {
+            "title": "Fan",
+            "enum": [
+              "fan"
+            ]
+          },
+          {
+            "title": "None",
+            "enum": [
+              "none"
+            ]
+          }
+        ],
+        "required": true
       }
     }
   }
