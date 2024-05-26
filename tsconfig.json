@@ -9,7 +9,7 @@
       "DOM",
       "ES2022"
     ],
-    "moduleResolution":"node",
+    "moduleResolution": "node",
     "outDir": "dist",
     "rootDir": "src",
     "sourceMap": true,

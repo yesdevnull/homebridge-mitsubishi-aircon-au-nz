@@ -15,8 +15,6 @@ import { ZoneAccessory } from './zoneAccessory';
 import { MelviewService } from './melviewService';
 
 export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugin {
-  // public readonly Service: typeof Service = this.api.hap.Service;
-  // public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
   public melviewService?: MelviewService;
   public readonly accessories: PlatformAccessory[] = [];
 

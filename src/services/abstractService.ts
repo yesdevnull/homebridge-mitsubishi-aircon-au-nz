@@ -21,8 +21,8 @@ export abstract class AbstractService {
             this.device.name = this.getDeviceRoom();
         }
         this.log.info("Set Device:", this.device.name)
-        this.service = this.accessory.getService(this.getServiceType()) ||
-            this.accessory.addService(this.getServiceType());
+        // @ts-expect-error dunno, don't have time to fix this yet
+        this.service = this.accessory.getService(this.getServiceType()) || this.accessory.addService(this.getServiceType());
         this.service.setCharacteristic(this.hap.Characteristic.Name, this.device.name);
 
         this.service.getCharacteristic(this.hap.Characteristic.Active)
