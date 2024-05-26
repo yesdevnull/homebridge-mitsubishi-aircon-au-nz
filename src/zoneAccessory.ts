@@ -24,7 +24,7 @@ export class ZoneAccessory {
         // set accessory information
         accessory.getService(this.hap.Service.AccessoryInformation)!
           .setCharacteristic(this.hap.Characteristic.Manufacturer, 'Mitsubishi Electric')
-          .setCharacteristic(this.hap.Characteristic.Model, device.capabilities!.adaptortype)
+          .setCharacteristic(this.hap.Characteristic.Model, device.capabilities!.modelname)
           .setCharacteristic(this.hap.Characteristic.SerialNumber, device.unitid);
 
         let service = accessory.getService(this.hap.Service.Fanv2);

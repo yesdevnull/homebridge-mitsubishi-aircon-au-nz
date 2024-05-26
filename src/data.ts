@@ -48,6 +48,8 @@ export interface Account {
 
 export interface Capabilities {
     id: string;
+    modelid: string;
+    modelname: string;
     unitname: string;
     unittype: string;
     fault: string;

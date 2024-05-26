@@ -72,11 +72,12 @@ export class HeatCoolService extends AbstractService {
 
     async setActive(value: CharacteristicValue) {
         await this.platform.melviewService?.command(
-            new CommandPower(value, this.device, this.platform));
+            new CommandPower(value, this.device, this.platform)
+        );
         //this.platform.log.error('power***', value);
 
         const b = this.accessory.context.device.state!;//.zones[1].zoneid;
-        //this.platform.log.error('power***', b);
+        this.platform.log.debug('power***', b);
 
         //this is the test to check if Zones are present, if there are defined zones (more than 2) proceed to find accessory.
         if (b.zones.length || b.zones.length >= 2) {

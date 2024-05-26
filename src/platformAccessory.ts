@@ -28,7 +28,7 @@ export class MelviewMitsubishiPlatformAccessory {
     // set accessory information
     this.accessory.getService(this.hap.Service.AccessoryInformation)!
       .setCharacteristic(this.hap.Characteristic.Manufacturer, 'Mitsubishi Electric')
-      .setCharacteristic(this.hap.Characteristic.Model, device.capabilities!.adaptortype)
+      .setCharacteristic(this.hap.Characteristic.Model, device.capabilities!.modelname)
       .setCharacteristic(this.hap.Characteristic.SerialNumber, device.unitid);
 
     /*********************************************************
