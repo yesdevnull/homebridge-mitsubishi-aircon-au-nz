@@ -1,10 +1,8 @@
-import { API, PlatformAccessory, CharacteristicValue, HAP } from 'homebridge';
+import { API, PlatformAccessory, HAP } from 'homebridge';
 import { MelviewMitsubishiHomebridgePlatform } from './platform';
 import { Unit } from './data';
 import { HeatCoolService } from './services/heatCoolService';
 import { DryService } from './services/dryService';
-import { CommandZone } from './melviewCommand';
-import { MelviewService } from './melviewService';
 
 /**
  * Platform Accessory

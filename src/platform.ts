@@ -1,12 +1,10 @@
 import {
   API,
   Categories,
-  Characteristic,
   DynamicPlatformPlugin,
   Logger,
   PlatformAccessory,
   PlatformConfig,
-  Service,
 } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
@@ -33,7 +31,7 @@ export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugi
     this.melviewService = new MelviewService(
       this.log,
       this.config,
-      this.api
+      this.api,
     );
 
     this.api.on('didFinishLaunching', () => {
