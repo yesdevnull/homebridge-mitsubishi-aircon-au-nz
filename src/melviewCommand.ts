@@ -1,6 +1,6 @@
 import { API, HAP, CharacteristicValue } from 'homebridge';
-import { MelviewMitsubishiHomebridgePlatform } from './platform';
-import { Unit, WorkMode } from './data';
+import { MelviewMitsubishiHomebridgePlatform } from './platform.js';
+import { Unit, WorkMode } from './data.js';
 
 export interface Command {
   execute(): string;

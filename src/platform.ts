@@ -7,10 +7,10 @@ import {
   PlatformConfig,
 } from 'homebridge';
 
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { MelviewMitsubishiPlatformAccessory } from './platformAccessory';
-import { ZoneAccessory } from './zoneAccessory';
-import { MelviewService } from './melviewService';
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
+import { MelviewMitsubishiPlatformAccessory } from './platformAccessory.js';
+import { ZoneAccessory } from './zoneAccessory.js';
+import { MelviewService } from './melviewService.js';
 
 export class MelviewMitsubishiHomebridgePlatform implements DynamicPlatformPlugin {
   public melviewService?: MelviewService;

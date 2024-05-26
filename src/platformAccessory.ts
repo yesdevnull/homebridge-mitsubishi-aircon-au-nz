@@ -1,8 +1,8 @@
 import { API, PlatformAccessory, HAP } from 'homebridge';
-import { MelviewMitsubishiHomebridgePlatform } from './platform';
-import { Unit } from './data';
-import { HeatCoolService } from './services/heatCoolService';
-import { DryService } from './services/dryService';
+import { MelviewMitsubishiHomebridgePlatform } from './platform.js';
+import { Unit } from './data.js';
+import { HeatCoolService } from './services/heatCoolService.js';
+import { DryService } from './services/dryService.js';
 
 /**
  * Platform Accessory

@@ -1,8 +1,7 @@
 import { API, HAP, CharacteristicValue, Logger, PlatformAccessory, Service } from "homebridge";
-import { MelviewMitsubishiHomebridgePlatform } from "../platform";
-import { Unit } from "../data";
+import { MelviewMitsubishiHomebridgePlatform } from "../platform.js";
+import { Unit } from "../data.js";
 import { WithUUID } from "hap-nodejs";
-import { CommandPower, CommandRotationSpeed } from "../melviewCommand";
 
 export abstract class AbstractService {
     public readonly api: API;

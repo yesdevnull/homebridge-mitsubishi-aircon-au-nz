@@ -1,15 +1,14 @@
-import { MelviewMitsubishiHomebridgePlatform } from "../platform";
-import { CharacteristicValue, PlatformAccessory, Service, PlatformConfig } from "homebridge";
-import { WorkMode } from "../data";
-import { AbstractService } from "./abstractService";
+import { MelviewMitsubishiHomebridgePlatform } from "../platform.js";
+import { CharacteristicValue, PlatformAccessory, Service } from "homebridge";
+import { WorkMode } from "../data.js";
+import { AbstractService } from "./abstractService.js";
 import {
     CommandPower,
     CommandRotationSpeed,
     CommandTargetHeaterCoolerState,
     CommandTemperature
-} from "../melviewCommand";
+} from "../melviewCommand.js";
 import { WithUUID } from "hap-nodejs";
-import { ZoneAccessory } from "../zoneAccessory";
 
 export class HeatCoolService extends AbstractService {
     public readonly accessories: PlatformAccessory[] = [];

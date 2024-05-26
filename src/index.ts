@@ -1,6 +1,6 @@
 import { API } from 'homebridge';
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { MelviewMitsubishiHomebridgePlatform } from './platform';
+import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
+import { MelviewMitsubishiHomebridgePlatform } from './platform.js';
 
 /**
  * This method registers the platform with Homebridge

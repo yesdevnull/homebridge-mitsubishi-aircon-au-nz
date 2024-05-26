@@ -1,8 +1,8 @@
 import { API, PlatformAccessory, CharacteristicValue, HAP } from 'homebridge';
-import { MelviewMitsubishiHomebridgePlatform } from './platform';
-import { Unit } from './data';
-import { CommandZone } from './melviewCommand';
-import { MelviewService } from './melviewService';
+import { MelviewMitsubishiHomebridgePlatform } from './platform.js';
+import { Unit } from './data.js';
+import { CommandZone } from './melviewCommand.js';
+import { MelviewService } from './melviewService.js';
 
 export class ZoneAccessory {
   public readonly api: API;

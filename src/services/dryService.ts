@@ -1,12 +1,11 @@
-import { MelviewMitsubishiHomebridgePlatform } from "../platform";
+import { MelviewMitsubishiHomebridgePlatform } from "../platform.js";
 import { CharacteristicValue, PlatformAccessory, Service } from "homebridge";
-import { WorkMode } from "../data";
-import { AbstractService } from "./abstractService";
+import { WorkMode } from "../data.js";
+import { AbstractService } from "./abstractService.js";
 import {
     CommandPower, CommandRotationSpeed,
-    CommandTargetHeaterCoolerState,
     CommandTargetHumidifierDehumidifierState
-} from "../melviewCommand";
+} from "../melviewCommand.js";
 import { WithUUID } from "hap-nodejs";
 
 export class DryService extends AbstractService {

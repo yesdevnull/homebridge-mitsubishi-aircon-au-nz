@@ -1,8 +1,8 @@
-import {API, Logger, PlatformConfig} from 'homebridge';
-import fetch, {Response} from 'node-fetch';
-import {Cookie} from 'tough-cookie';
-import {Account, Building, Capabilities, CommandResponse, State} from './data';
-import {Command} from './melviewCommand';
+import { API, Logger, PlatformConfig } from 'homebridge';
+import fetch, { Response } from 'node-fetch';
+import { Cookie } from 'tough-cookie';
+import { Account, Building, Capabilities, CommandResponse, State } from './data.js';
+import { Command } from './melviewCommand.js';
 
 const URL = 'https://api.melview.net/api/';
 const APP_VERSION = '5.3.1348';
@@ -15,9 +15,9 @@ export class MelviewService {
   private auth?: Cookie;
 
   constructor(
-        public readonly log: Logger,
-        public readonly config: PlatformConfig,
-        public readonly api: API,
+    public readonly log: Logger,
+    public readonly config: PlatformConfig,
+    public readonly api: API,
   ) {
     this.log.debug('Test Service Instantiated!');
   }
@@ -40,14 +40,14 @@ export class MelviewService {
     });
 
     if (!response || response.status !== 200) {
-      throw new Error ('Failed to login - check the network.');
+      throw new Error('Failed to login - check the network.');
     }
 
     try {
       this.extractCookie(response);
     } catch (e) {
       this.log.debug('e', e);
-      throw new Error ('Failed parse response from Melview - check the network.');
+      throw new Error('Failed parse response from Melview - check the network.');
     }
     if (!this.auth) {
       throw new Error('Unable to get auth token from MelView - will retry.');
@@ -111,7 +111,7 @@ export class MelviewService {
      * @param command is the command to be executed.
      * @param commandChain any additional commands to be executed in chain.
      */
-  public async command(command : Command, ...commandChain: Command[]) {
+  public async command(command: Command, ...commandChain: Command[]) {
     const allComms = [command, ...commandChain].map(c => c.execute()).join(',');
     if (this.authWillExpire()) {
       this.login().catch(e => {
@@ -140,7 +140,7 @@ export class MelviewService {
       fetch(command.getLocalCommandURL(), {
         method: 'POST',
         body: xmlBody,
-      }).then(r =>{
+      }).then(r => {
         r.text().then(v => {
           this.log.debug('Successfully processed local request:', v);
         }).finally();
