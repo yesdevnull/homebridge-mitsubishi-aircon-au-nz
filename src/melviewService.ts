@@ -138,21 +138,30 @@ export class MelviewService {
       const xmlBody = command.getLocalCommandBody(rBody.lc);
       this.log.debug('body', rBody, xmlBody);
       try {
-        fetch(command.getLocalCommandURL(), {
+        const innerResponse = await fetch(command.getLocalCommandURL(), {
           method: 'POST',
           body: xmlBody,
-        }).then(r => {
-          r.text().then(v => {
-            this.log.debug('Successfully processed local request:', v);
-          }).finally();
-        }).catch(e => {
-          this.log.debug('Exception during local command fetch');
-          this.log.warn('Unable to access unit via direct LAN interface.', e);
-        }).finally(() => {
-          this.log.debug('Finished local command request');
         });
+        const innerBody = await innerResponse.text();
+        this.log.debug('Successfully processed local request:', innerBody);
+        
+        // fetch(command.getLocalCommandURL(), {
+        //   method: 'POST',
+        //   body: xmlBody,
+        // }).then(r => {
+        //   r.text().then(v => {
+        //     this.log.debug('Successfully processed local request:', v);
+        //   }).finally();
+        // }).catch(e => {
+        //   this.log.debug('Exception during local command fetch');
+        //   this.log.warn('Unable to access unit via direct LAN interface.', e);
+        // }).finally(() => {
+        //   this.log.debug('Finished local command request');
+        // });
       } catch (e) {
         this.log.debug('Alternative error catch', e);
+        this.log.debug('Exception during local command fetch');
+        this.log.warn('Unable to access unit via direct LAN interface.', e);
       }
     }
   }
