@@ -144,7 +144,7 @@ export class MelviewService {
         });
         const innerBody = await innerResponse.text();
         this.log.debug('Successfully processed local request:', innerBody);
-        
+
         // fetch(command.getLocalCommandURL(), {
         //   method: 'POST',
         //   body: xmlBody,
