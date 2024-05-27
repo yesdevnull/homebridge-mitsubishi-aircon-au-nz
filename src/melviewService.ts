@@ -132,11 +132,11 @@ export class MelviewService {
       headers: this.populateHeaders(),
       body: req,
     });
-    this.log.debug(req);
     const body = await response.text();
     const rBody = JSON.parse(body) as CommandResponse;
     if (rBody.error === 'ok' && rBody.lc && rBody.lc.length > 0) {
       const xmlBody = command.getLocalCommandBody(rBody.lc);
+      this.log.debug('body', rBody, xmlBody);
       fetch(command.getLocalCommandURL(), {
         method: 'POST',
         body: xmlBody,
@@ -146,7 +146,9 @@ export class MelviewService {
         }).finally();
       }).catch(e => {
         this.log.warn('Unable to access unit via direct LAN interface.', e);
-      }).finally();
+      }).finally(() => {
+        this.log.debug('Finished local command request');
+      });
     }
   }
 
