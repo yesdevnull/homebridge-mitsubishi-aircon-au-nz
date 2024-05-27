@@ -74,10 +74,10 @@ export class HeatCoolService extends AbstractService {
         await this.platform.melviewService?.command(
             new CommandPower(value, this.device, this.platform)
         );
-        //this.platform.log.error('power***', value);
+        this.platform.log.debug('power***', value);
 
         const b = this.accessory.context.device.state!;//.zones[1].zoneid;
-        this.platform.log.debug('power***', b);
+        this.platform.log.debug('power*** b', b);
 
         //this is the test to check if Zones are present, if there are defined zones (more than 2) proceed to find accessory.
         if (b.hasOwnProperty('zones') && (b.zones.length || b.zones.length >= 2)) {
@@ -108,6 +108,9 @@ export class HeatCoolService extends AbstractService {
                 } else { this.platform.log.error('No exisitingzoneaccessory found...Zone (name/ID):', zone.name, zone.zoneid, zone.displayName); }
             }// zone end Loop
         }//end zones defined.
+        else {
+            this.platform.log.debug('No zones found');
+        }
     }
 
     async setCoolingThresholdTemperature(value: CharacteristicValue) {
