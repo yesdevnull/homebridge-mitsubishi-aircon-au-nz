@@ -134,6 +134,7 @@ export class MelviewService {
     });
     const body = await response.text();
     const rBody = JSON.parse(body) as CommandResponse;
+    // TODO: This local command functionality doesn't work on my systems - need to dig in to find out if I'm doing it wrong.
     if (rBody.error === 'ok' && rBody.lc && rBody.lc.length > 0) {
       const xmlBody = command.getLocalCommandBody(rBody.lc);
       this.log.debug('body', rBody, xmlBody);
@@ -144,23 +145,7 @@ export class MelviewService {
         });
         const innerBody = await innerResponse.text();
         this.log.debug('Successfully processed local request:', innerBody);
-
-        // fetch(command.getLocalCommandURL(), {
-        //   method: 'POST',
-        //   body: xmlBody,
-        // }).then(r => {
-        //   r.text().then(v => {
-        //     this.log.debug('Successfully processed local request:', v);
-        //   }).finally();
-        // }).catch(e => {
-        //   this.log.debug('Exception during local command fetch');
-        //   this.log.warn('Unable to access unit via direct LAN interface.', e);
-        // }).finally(() => {
-        //   this.log.debug('Finished local command request');
-        // });
       } catch (e) {
-        this.log.debug('Alternative error catch', e);
-        this.log.debug('Exception during local command fetch');
         this.log.warn('Unable to access unit via direct LAN interface.', e);
       }
     }
@@ -193,15 +178,6 @@ export class MelviewService {
     const raw = JSON.stringify(response.headers.raw()['set-cookie']);
     this.auth = Cookie.parse(raw) as Cookie;
   }
-
-  // private async debugResponse(method: string, response: Response): Promise<string> {
-  //   // this.log.debug(method, 'HEADERS:--------------------------------------\n',
-  //   //   JSON.stringify(response.headers.raw()));
-  //   const body = await response.text();
-  //   // this.log.debug(method, 'BODY:--------------------------------------\n',
-  //   //   body);
-  //   return body;
-  // }
 
   private populateHeaders() {
     return {

@@ -74,7 +74,7 @@ export class HeatCoolService extends AbstractService {
         await this.platform.melviewService?.command(
             new CommandPower(value, this.device, this.platform)
         );
-        this.platform.log.debug('power***', value);
+        this.platform.log.debug('power*** value', value);
 
         const b = this.accessory.context.device.state!;//.zones[1].zoneid;
         this.platform.log.debug('power*** b', b);

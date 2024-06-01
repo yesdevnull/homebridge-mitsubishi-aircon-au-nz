@@ -2,7 +2,7 @@
   "displayName": "AU/NZ Mitsubishi Air Conditioner Wi-Fi Control",
   "name": "@yesdevnull/homebridge-mitsubishi-aircon-au-nz",
   "version": "1.0.11-beta.11",
-  "description": "Control your Mitsubishi Air Conditioner units with Homebridge and Apple HomeKit. Tgis plugin also support zones for ducted a/c systems. Exposing a seperate fan accessory for each zone.",
+  "description": "Control your Mitsubishi Air Conditioner units with Homebridge and Apple HomeKit. This plugin also support zones for ducted A/C systems, exposing a separate fan accessory for each zone.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -32,14 +32,14 @@
     "tough-cookie": "4.1.4"
   },
   "devDependencies": {
-    "@types/node": "20.12.12",
+    "@types/node": "20.13.0",
     "@types/node-fetch": "2.6.11",
     "@types/tough-cookie": "4.0.5",
-    "@typescript-eslint/eslint-plugin": "7.10.0",
-    "@typescript-eslint/parser": "7.10.0",
+    "@typescript-eslint/eslint-plugin": "7.11.0",
+    "@typescript-eslint/parser": "7.11.0",
     "eslint": "8.57.0",
     "homebridge": "1.8.2",
-    "nodemon": "3.1.1",
+    "nodemon": "3.1.2",
     "rimraf": "5.0.7",
     "ts-node": "10.9.2",
     "typescript": "5.4.5"
