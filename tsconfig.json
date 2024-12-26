@@ -4,6 +4,8 @@
     "rootDir": "src"
   },
   "include": [
+    "eslint.config.js",
+    "homebridge-ui",
     "src"
   ],
   "exclude": [
