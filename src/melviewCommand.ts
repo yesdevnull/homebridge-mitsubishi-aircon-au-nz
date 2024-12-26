@@ -53,15 +53,15 @@ export class CommandPower extends AbstractCommand {
 export class CommandTargetHeaterCoolerState extends AbstractCommand {
   public execute(): string {
     switch (this.value) {
-      case this.hap.Characteristic.TargetHeaterCoolerState.COOL:
+    case this.hap.Characteristic.TargetHeaterCoolerState.COOL:
         this.device.state!.setmode = WorkMode.COOL;
-        return 'MD' + WorkMode.COOL;
-      case this.hap.Characteristic.TargetHeaterCoolerState.HEAT:
+      return 'MD' + WorkMode.COOL;
+    case this.hap.Characteristic.TargetHeaterCoolerState.HEAT:
         this.device.state!.setmode = WorkMode.HEAT;
-        return 'MD' + WorkMode.HEAT;
-      case this.hap.Characteristic.TargetHeaterCoolerState.AUTO:
+      return 'MD' + WorkMode.HEAT;
+    case this.hap.Characteristic.TargetHeaterCoolerState.AUTO:
         this.device.state!.setmode = WorkMode.AUTO;
-        return 'MD' + WorkMode.AUTO;
+      return 'MD' + WorkMode.AUTO;
     }
     return '';
   }
@@ -70,9 +70,9 @@ export class CommandTargetHeaterCoolerState extends AbstractCommand {
 export class CommandTargetHumidifierDehumidifierState extends AbstractCommand {
   public execute(): string {
     switch (this.value) {
-      case this.hap.Characteristic.TargetHumidifierDehumidifierState.DEHUMIDIFIER:
+    case this.hap.Characteristic.TargetHumidifierDehumidifierState.DEHUMIDIFIER:
         this.device.state!.setmode = WorkMode.DRY;
-        return 'MD' + WorkMode.DRY;
+      return 'MD' + WorkMode.DRY;
     }
     return '';
   }
