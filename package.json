@@ -1,7 +1,7 @@
 {
   "displayName": "AU/NZ Mitsubishi Air Conditioner Wi-Fi Control",
   "name": "@yesdevnull/homebridge-mitsubishi-aircon-au-nz",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Control your Mitsubishi Air Conditioner units with Homebridge and Apple HomeKit. This plugin also support zones for ducted A/C systems, exposing a separate fan accessory for each zone.",
   "license": "Apache-2.0",
   "repository": {
@@ -13,12 +13,12 @@
   },
   "type": "module",
   "engines": {
-    "homebridge": "^1.7.0",
-    "node": "^18 || ^20"
+    "homebridge": "^1.6.0 || ^2.0.0-beta.0 || ^2.0.0",
+    "node": "^18.20.4 || ^20.15.1 || ^22.12.0"
   },
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint src/**.ts --max-warnings=0",
+    "lint": "eslint . --max-warnings=0",
     "watch": "npm run build && npm link && nodemon",
     "build": "rimraf ./dist && tsc",
     "prepublishOnly": "npm run lint && npm run build"
@@ -27,21 +27,23 @@
     "homebridge-plugin"
   ],
   "dependencies": {
-    "@homebridge/plugin-ui-utils": "1.0.3",
+    "@homebridge/plugin-ui-utils": "2.0.0",
+    "homebridge-plugin-utils": "^1.12.0",
     "node-fetch": "3.3.2",
     "tough-cookie": "4.1.4"
   },
   "devDependencies": {
     "@types/node": "20.13.0",
-    "@types/node-fetch": "2.6.11",
+    "@types/node-fetch": "2.6.12",
     "@types/tough-cookie": "4.0.5",
-    "@typescript-eslint/eslint-plugin": "7.11.0",
-    "@typescript-eslint/parser": "7.11.0",
-    "eslint": "8.57.0",
-    "homebridge": "1.8.2",
-    "nodemon": "3.1.2",
-    "rimraf": "5.0.7",
+    "@typescript-eslint/eslint-plugin": "8.18.2",
+    "@typescript-eslint/parser": "8.18.2",
+    "eslint": "9.17.0",
+    "homebridge": "1.8.5",
+    "nodemon": "3.1.9",
+    "rimraf": "6.0.1",
     "ts-node": "10.9.2",
-    "typescript": "5.4.5"
+    "typescript": "5.7.2",
+    "typescript-eslint": "8.18.2"
   }
 }

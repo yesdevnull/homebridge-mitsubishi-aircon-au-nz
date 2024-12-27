@@ -2,11 +2,7 @@
 dist
 
 # ------------- Defaults ------------- #
-
-# IDEs
-*.iml
-.idea
-.vscode
+.DS_Store
 
 # Logs
 logs
@@ -123,3 +119,8 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
+
+# Webstorm
+.idea
+
+/test/hbConfig
