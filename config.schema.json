@@ -25,16 +25,16 @@
         "description": "Dry mode is still in development and is subject to bugs."
       },
       "displayHalfDegreeTemperature": {
-        "title": "Display Half Degree Temperature",
+        "title": "Display Half-Degree Temperature",
         "type": "boolean",
         "default": true,
-        "description": "Displays values for the current temperature in 0.5 step increments."
+        "description": "Displays values for the current temperature in half-degree increments."
       },
       "setHalfDegreeTemperature": {
-        "title": "Set Half Degree Temperature",
+        "title": "Set Half-Degree Temperature",
         "type": "boolean",
         "default": false,
-        "description": "Allows you to set the desired temperature in 0.5 step increments."
+        "description": "Allows you to set the desired temperature in half-degree increments."
       },
       "zones": {
         "title": "Ducted AC Zone Control",
