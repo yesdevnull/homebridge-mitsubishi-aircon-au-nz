@@ -28,7 +28,7 @@ export class HeatCoolService extends AbstractService {
       .onGet(this.getCurrentTemperature.bind(this));
     this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.minValue = -50;
     this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.maxValue = 70;
-    this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.minStep = this.platform.config.displayHalfStep ? 0.5 : 1;
+    this.service.getCharacteristic(this.hap.Characteristic.CurrentTemperature).props.minStep = this.platform.config.displayHalfDegreeTemperature ? 0.5 : 1;
 
     this.service.getCharacteristic(this.hap.Characteristic.CoolingThresholdTemperature)
       .onSet(this.setCoolingThresholdTemperature.bind(this))
@@ -38,7 +38,7 @@ export class HeatCoolService extends AbstractService {
     const cool = this.device.state!.max![WorkMode.COOL + ''];
     this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minValue = cool.min;
     this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.maxValue = cool.max;
-    this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minStep = this.platform.config.setHalfStep ? 0.5 : 1;
+    this.service.getCharacteristic(this.characteristic.CoolingThresholdTemperature).props.minStep = this.platform.config.setHalfDegreeTemperature ? 0.5 : 1;
 
     this.service.getCharacteristic(this.hap.Characteristic.HeatingThresholdTemperature)
       .onSet(this.setHeatingThresholdTemperature.bind(this))
@@ -48,7 +48,7 @@ export class HeatCoolService extends AbstractService {
     const heat = this.device.state!.max![WorkMode.HEAT + ''];
     this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minValue = heat.min;
     this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.maxValue = heat.max;
-    this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minStep = this.platform.config.setHalfStep ? 0.5 : 1;
+    this.service.getCharacteristic(this.characteristic.HeatingThresholdTemperature).props.minStep = this.platform.config.setHalfDegreeTemperature ? 0.5 : 1;
 
     this.platform.log.debug(
       'Set characteristics for service', 

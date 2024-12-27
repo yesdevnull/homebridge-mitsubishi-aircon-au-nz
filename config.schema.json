@@ -24,14 +24,14 @@
         "default": false,
         "description": "Dry mode is still in development and is subject to bugs."
       },
-      "displayHalfStep": {
-        "title": "Display Half Temps",
+      "displayHalfDegreeTemperature": {
+        "title": "Display Half Degree Temperature",
         "type": "boolean",
         "default": true,
         "description": "Displays values for the current temperature in 0.5 step increments."
       },
-      "setHalfStep": {
-        "title": "Set Half Temps",
+      "setHalfDegreeTemperature": {
+        "title": "Set Half Degree Temperature",
         "type": "boolean",
         "default": false,
         "description": "Allows you to set the desired temperature in 0.5 step increments."
